@@ -12,6 +12,92 @@ class Accounts {
 
 	const SLUG = 'triggerfish-social-accounts';
 
+	private function __construct() {
+		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
+		add_action( 'acf/init', [ $this, 'register_acf_fields' ] );
+		add_action( 'acf/save_post', [ $this, 'before_accounts_saved' ], 9 );
+		add_action( 'acf/save_post', [ $this, 'after_accounts_saved' ], 11 );
+	}
+
+	public function before_accounts_saved( $post_id ) {
+		if ( 'options' !== $post_id ) {
+			return;
+		}
+
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return;
+		}
+
+		$screen = get_current_screen();
+
+		if ( false === mb_strpos( $screen->id, self::SLUG ) ) {
+			return;
+		}
+
+		$accounts = self::get_all_accounts();
+
+		if ( empty( $accounts ) ) {
+			$this->accounts_before_save = [];
+
+			return;
+		}
+
+		$account_ids = array_map( function( $account ) {
+			return $account->get_id();
+		}, $accounts );
+
+		$this->accounts_before_save = array_combine( $account_ids, $accounts );
+	}
+
+	public function after_accounts_saved( $post_id ) {
+		if ( 'options' !== $post_id ) {
+			return;
+		}
+
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return;
+		}
+
+		$screen = get_current_screen();
+
+		if ( false === mb_strpos( $screen->id, self::SLUG ) ) {
+			return;
+		}
+
+		$accounts = self::get_all_accounts();
+
+		$account_ids = array_map( function( $account ) {
+			return $account->get_id();
+		}, $accounts );
+
+		$current_accounts = array_combine( $account_ids, $accounts );
+
+		$deleted_accounts = array_diff_key( $this->accounts_before_save, $current_accounts );
+		$added_accounts = array_diff_key( $current_accounts, $this->accounts_before_save );
+
+		do_action( 'tf/social/accounts/added', $added_accounts );
+
+		if ( empty( $deleted_accounts ) && empty( $added_accounts ) ) {
+			return;
+		}
+
+		foreach ( $deleted_accounts as $deleted_account ) {
+			$deleted_account->delete();
+		}
+	}
+
+	public static function delete_account( $account_id, $provider_name ) {
+		$account_class = Plugin::get_account_class( $provider_name );
+
+		if ( empty( $account_class ) ) {
+			return tf_wp_error( 'Unknown Provider' );
+		}
+
+		$account = new $account_class( $account_id );
+
+		return $account->delete();
+	}
+
 	public static function sync_all_accounts() {
 		$accounts = self::get_all_accounts();
 
@@ -54,11 +140,6 @@ class Accounts {
 		$ids = array_map( 'current', $repeater_value );
 
 		return array_map( [ $account_class, 'instance' ], $ids );
-	}
-
-	private function __construct() {
-		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
-		add_action( 'acf/init', [ $this, 'register_acf_fields' ] );
 	}
 
 	public function admin_menu() {

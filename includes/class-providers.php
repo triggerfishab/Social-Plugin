@@ -18,7 +18,7 @@ class Providers {
 		$accounts = Accounts::get_provider_accounts( $provider_name );
 
 		if ( empty( $accounts ) ) {
-			return true;
+			return tf_wp_error( 'No accounts found.' );
 		}
 
 		$result = [];

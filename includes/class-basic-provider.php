@@ -12,8 +12,8 @@ abstract class Basic_Provider extends \Triggerfish\Social\Provider {
 	abstract protected function get_remote_request_parameters( $account_id ) : array;
 
 	protected function get_decoded_response_body( $account_id ) {
-		$parameters = apply_filters( 'tf/social/provider/request_parameters/', [] );
-		$parameters = apply_filters( sprintf( 'tf/social/provider/%s/request_parameters/', $this->get_name() ), $parameters );
+		$parameters = apply_filters( 'tf/social/provider/request_parameters', [] );
+		$parameters = apply_filters( sprintf( 'tf/social/provider/%s/request_parameters', $this->get_name() ), $parameters );
 
 		$parameters = wp_parse_args(
 			$parameters,

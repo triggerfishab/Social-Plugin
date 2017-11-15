@@ -29,11 +29,11 @@ class Settings {
 
 	public function register_acf_fields() {
 		$fields = [
-			acf_email([
-				'name' => 'tf_social_notify_email',
-				'label' => __( 'Notify email', 'triggerfish-social' ),
-				'instructions' => __( 'If something goes wrong with the social integration, an email will be sent to this email address.', 'triggerfish-social' ),
-			]),
+			// acf_email([
+			// 	'name' => 'tf_social_notify_email',
+			// 	'label' => __( 'Notify email', 'triggerfish-social' ),
+			// 	'instructions' => __( 'If something goes wrong with the social integration, an email will be sent to this email address.', 'triggerfish-social' ),
+			// ]),
 			acf_tab([
 				'name' => 'tf_social_facebook_tab',
 				'label' => 'Facebook',

@@ -19,7 +19,7 @@ class CLI {
 	 */
 	public function sync_provider( $args ) {
 		if ( empty( $args[0] ) ) {
-			\WP_CLI::error( 'Argument <provider_name> missing.' );
+			\WP_CLI::error( 'Argument <provider_name> missing' );
 		}
 
 		$provider_name = mb_strtolower( $args[0] );
@@ -37,7 +37,7 @@ class CLI {
 				}
 			}
 
-			\WP_CLI::line( 'Complete.' );
+			\WP_CLI::line( 'Complete' );
 			\WP_CLI::halt( 1 );
 		}
 
@@ -55,7 +55,7 @@ class CLI {
 	 */
 	public function get_provider_accounts( $args ) {
 		if ( empty( $args[0] ) ) {
-			\WP_CLI::error( 'Argument <provider_name> missing.' );
+			\WP_CLI::error( 'Argument <provider_name> missing' );
 		}
 
 		$provider_name = mb_strtolower( $args[0] );
@@ -127,11 +127,44 @@ class CLI {
 				}
 			}
 
-			\WP_CLI::line( 'Complete.' );
+			\WP_CLI::line( 'Complete' );
 			\WP_CLI::halt( 1 );
 		}
 
 		\WP_CLI::success( 'Complete' );
+	}
+
+	/**
+	 * Delete account.
+	 *
+	 * @alias delete-account
+	 *
+	 * <account_id>
+	 * : The Account ID to delete.
+	 *
+	 * <provider_name>
+	 * : The Provider Name to delete.
+	 *
+	 */
+	public function delete_account( $args ) {
+		if ( empty( $args[0] ) ) {
+			\WP_CLI::error( 'Argument <account_id> missing' );
+		}
+
+		if ( empty( $args[1] ) ) {
+			\WP_CLI::error( 'Argument <provider_name> missing' );
+		}
+
+		$account_id = $args[0];
+		$provider_name = $args[1];
+
+		$status = Accounts::delete_account( $account_id, $provider_name );
+
+		if ( is_wp_error( $status ) ) {
+			\WP_CLI::error( $status->get_error_message() );
+		}
+
+		\WP_CLI::success( 'Account deleted' );
 	}
 
 }

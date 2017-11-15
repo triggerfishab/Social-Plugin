@@ -1,21 +1,20 @@
-Flera konton per typ.
+## Hooks ##
 
-Varje typ = term
-Varje konto under typ = subterm till typens term.
+#### Filters ####
 
-En typ = en OAuth app (minst)
+`tf/social/provider/request_parameters`
+`tf/social/provider/post_array`
+`tf/social/provider/limit_per_account`
+`tf/social/provider/wp_remote_parameters`
 
-Om access token har gått ut vid synk, notifiera till mail och som admin notice.
-Mailfält bör finnas för notifiering.
+#### Actions ####
 
-Olika sidor i admin för OAuth settings/autentisering och konton.
+`tf/social/account/deleting`
+`tf/social/account/deleted`
+`tf/social/accounts/added`
+`tf/social/provider/post_inserted`
 
-Facebook
-Facebook kontofält, man lägger in url namn. T.ex. "Triggerfish.se"
+## Todos ##
 
-YouTube
-Search endpoint med "channelId" parameter.
-
-Instagram
-OAuth
-Måste stödja både user och tag.
+- Om access token har gått ut vid synk, notifiera till angiven mail och i admin notice. Mailfält under inställningar.
+- Lägg till stöd för taggar på Instagram och Twitter.

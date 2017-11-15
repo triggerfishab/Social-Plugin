@@ -67,8 +67,6 @@ class Twitter extends \Triggerfish\Social\Provider {
 				'include_rts' => false,
 			];
 
-			$parameters = apply_filters( sprintf( 'tf/social/provider/%s/parameters', $this->get_name() ), $parameters );
-
 			$parameters['screen_name'] = $account_id;
 			$parameters['count'] = $this->get_limit();
 

@@ -10,10 +10,9 @@ class Plugin {
 
 	const POST_TYPE = 'tf-social-item';
 	const TAXONOMY = 'tf-social-provider-account';
+	const SLUG = 'triggerfish-social';
 
 	static private $instance;
-
-	const SLUG = 'triggerfish-social';
 
 	private function __construct() {
 		include_once PLUGIN_DIR . '/vendor/autoload.php';
@@ -116,6 +115,14 @@ class Plugin {
 
 	public function output_menu_page() {
 		include __DIR__ . '/templates/menu-page.php';
+	}
+
+	public static function debug( $debug_message ) {
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			\WP_CLI::debug( $debug_message );
+		} elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log( $debug_message );
+		}
 	}
 
 	public static function instance() {

@@ -15,7 +15,9 @@ abstract class Provider {
 	abstract protected function get_items_from_response_body( $body ) : array;
 	abstract protected function get_decoded_response_body( $account_id );
 
-	final public function sync_account( $account_id ) {
+	final public function sync_account( $account ) {
+		$account_id = $account->get_id();
+
 		$body = $this->get_decoded_response_body( $account_id );
 
 		$valid = $this->validate_body( $body );
@@ -174,14 +176,17 @@ abstract class Provider {
 			'update_post_term_cache' => false,
 			'update_post_meta_cache' => false,
 			'no_found_rows' => true,
+			'tax_query' => [
+				[
+					'taxonomy' => Plugin::TAXONOMY,
+					'terms' => $this->get_name(),
+					'field' => 'name',
+				],
+			],
 			'meta_query' => [
 				[
 					'key' => '_external_id',
 					'value' => $external_id,
-				],
-				[
-					'key' => '_provider_name',
-					'value' => $this->get_name(),
 				],
 			],
 			'fields' => 'ids',
@@ -194,7 +199,7 @@ abstract class Provider {
 		return 0;
 	}
 
-	protected function get_account_term_id( $account_id ) : int {
+	public function get_account_term_id( $account_id ) : int {
 		$terms = get_terms([
 			'taxonomy' => Plugin::TAXONOMY,
 			'number' => 2,
@@ -211,7 +216,7 @@ abstract class Provider {
 		return 0;
 	}
 
-	protected function get_provider_term_id() : int {
+	public function get_provider_term_id() : int {
 		$terms = get_terms([
 			'taxonomy' => Plugin::TAXONOMY,
 			'number' => 2,
@@ -259,8 +264,8 @@ abstract class Provider {
 	}
 
 	protected function request( string $url ) {
-		$wp_remote_parameters = apply_filters( 'tf/social/provider/wp_remote_parameters/', [] );
-		$wp_remote_parameters = apply_filters( sprintf( 'tf/social/provider/%s/wp_remote_parameters/', $this->get_name() ), $wp_remote_parameters );
+		$wp_remote_parameters = apply_filters( 'tf/social/provider/wp_remote_parameters', [] );
+		$wp_remote_parameters = apply_filters( sprintf( 'tf/social/provider/%s/wp_remote_parameters', $this->get_name() ), $wp_remote_parameters );
 
 		return wp_remote_get(
 			$url,
