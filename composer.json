@@ -1,0 +1,7 @@
+{
+    "require": {
+        "league/oauth2-instagram": "^2.0",
+        "wordplate/acf": "^3.0",
+        "abraham/twitteroauth": "^0.7.4"
+    }
+}
