@@ -14,11 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'PLUGIN_DIR', __DIR__ );
+define( 'PLUGIN_FILE', __FILE__ );
 
-add_action( 'plugins_loaded', function() {
-	if ( ! class_exists( 'acf' ) ) {
-		return;
-	}
-
-	include_once __DIR__ . '/includes/class-plugin.php';
-});
+include_once __DIR__ . '/includes/class-plugin.php';

@@ -11,6 +11,7 @@ class Plugin {
 	const POST_TYPE = 'tf-social-item';
 	const TAXONOMY = 'tf-social-provider-account';
 	const SLUG = 'triggerfish-social';
+	const CRON_ACTION = 'tf/social/cron';
 
 	static private $instance;
 
@@ -43,6 +44,10 @@ class Plugin {
 
 		add_action( 'init', [ $this, 'register_post_type' ] );
 		add_action( 'init', [ $this, 'register_taxonomy' ] );
+
+		add_action( 'wpmu_new_blog', [ $this, 'new_site_created' ], 10, 1 );
+
+		add_action( self::CRON_ACTION, [ __NAMESPACE__ . '\Accounts', 'sync_all_accounts' ] );
 	}
 
 	public function register_post_type() {
@@ -119,6 +124,58 @@ class Plugin {
 		include __DIR__ . '/templates/menu-page.php';
 	}
 
+	public static function on_activation() {
+		if ( is_multisite() ) {
+			$site_ids = get_sites([
+				'number' => 1000,
+				'fields' => 'ids',
+			]);
+
+			foreach ( $site_ids as $site_id ) {
+				switch_to_blog( $site_id );
+
+				self::schedule_event();
+
+				restore_current_blog();
+			}
+		} else {
+			self::schedule_event();
+		}
+	}
+
+	public static function on_deactivation() {
+		if ( is_multisite() ) {
+			$site_ids = get_sites([
+				'number' => 1000,
+				'fields' => 'ids',
+			]);
+
+			foreach ( $site_ids as $site_id ) {
+				switch_to_blog( $site_id );
+
+				wp_clear_scheduled_hook( self::CRON_ACTION );
+
+				restore_current_blog();
+			}
+		} else {
+			wp_clear_scheduled_hook( self::CRON_ACTION );
+		}
+	}
+
+	public function new_site_created( $blog_id ) {
+		switch_to_blog( $blog_id );
+
+		self::schedule_event();
+
+		restore_current_blog();
+	}
+
+	private static function schedule_event() {
+		if ( ! wp_next_scheduled( self::CRON_ACTION ) ) {
+			wp_schedule_event( time(), 'twicedaily', self::CRON_ACTION );
+		}
+	}
+
 	public static function debug( $debug_message ) {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			\WP_CLI::debug( $debug_message );
@@ -137,4 +194,14 @@ class Plugin {
 
 }
 
-Plugin::instance();
+register_activation_hook( PLUGIN_FILE, [ __NAMESPACE__ . '\Plugin', 'on_activation' ] );
+register_deactivation_hook( PLUGIN_FILE, [ __NAMESPACE__ . '\Plugin', 'on_deactivation' ] );
+
+add_action( 'plugins_loaded', function() {
+	if ( ! class_exists( 'acf' ) ) {
+		return;
+	}
+
+	Plugin::instance();
+});
+
