@@ -15,7 +15,7 @@ class Plugin {
 	static private $instance;
 
 	private function __construct() {
-		include_once PLUGIN_DIR . '/vendor/autoload.php';
+		include_once ABSPATH . '/vendor/autoload.php';
 
 		include_once PLUGIN_DIR . '/includes/class-settings.php';
 		include_once PLUGIN_DIR . '/includes/class-providers.php';

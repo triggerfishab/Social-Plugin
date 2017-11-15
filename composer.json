@@ -8,7 +8,7 @@
         "wordplate/acf": "^3.0",
         "abraham/twitteroauth": "^0.7.4"
     },
-    "license": "GNU",
+    "license": "GPL-2.0",
     "authors": [
         {
             "name": "Triggerfish",
