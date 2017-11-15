@@ -78,19 +78,13 @@ abstract class Provider {
 			$post_array['meta_input']['_provider_name'] = $this->get_name();
 			$post_array['meta_input']['_account_id'] = $account_id;
 
-			// pr_log( $item, '$item' );
-			pr_log( $post_array, '$post_array' );
-
 			$post_id = wp_insert_post( $post_array, true );
 
 			if ( is_wp_error( $post_id ) ) {
-				pr_log( $post_id );
 				continue;
 			}
 
 			$terms_to_set = $this->get_terms_to_set( $account_id );
-
-			pr_log( $terms_to_set, '$terms_to_set' );
 
 			wp_set_post_terms( $post_id, $terms_to_set, Plugin::TAXONOMY, false );
 

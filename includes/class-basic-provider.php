@@ -23,9 +23,6 @@ abstract class Basic_Provider extends \Triggerfish\Social\Provider {
 		$url = $this->get_url( $account_id );
 		$url = add_query_arg( $parameters, $url );
 
-		pr_log( $parameters, '$parameters' );
-		pr_log( $url, '$url' );
-
 		$response = $this->request( $url );
 
 		if ( is_wp_error( $responses ) ) {
