@@ -2,6 +2,7 @@
 
 /**
  * Plugin name: Triggerfish Social
+ * Version: 0.1
  * Author: Triggefish
  * Author URI: https://www.triggerfish.se/
  */
