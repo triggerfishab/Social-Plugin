@@ -54,6 +54,7 @@ class ComposerStaticInit5b3379df2c730b0f342116fac76e5506
         ),
         'C' => 
         array (
+            'Composer\\Installers\\' => 20,
             'Carbon\\' => 7,
         ),
         'A' => 
@@ -115,6 +116,10 @@ class ComposerStaticInit5b3379df2c730b0f342116fac76e5506
         'Doctrine\\Common\\Inflector\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
+        ),
+        'Composer\\Installers\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
         ),
         'Carbon\\' => 
         array (
