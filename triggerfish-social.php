@@ -8,11 +8,11 @@
 
 namespace Triggerfish\Social;
 
-define( 'PLUGIN_DIR', __DIR__ );
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
+
+define( 'PLUGIN_DIR', __DIR__ );
 
 add_action( 'plugins_loaded', function() {
 	if ( ! class_exists( 'acf' ) ) {

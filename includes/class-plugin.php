@@ -47,9 +47,10 @@ class Plugin {
 
 	public function register_post_type() {
 		register_post_type( self::POST_TYPE, [
-			'public' => true,
+			'public' => false,
 			'query_var' => false,
 			'supports' => false,
+			'show_ui' => apply_filters( 'tf/social/show_ui', defined( 'WP_DEBUG' ) && WP_DEBUG ),
 		]);
 	}
 
@@ -58,9 +59,10 @@ class Plugin {
 			self::TAXONOMY,
 			self::POST_TYPE,
 			[
-				'public' => true,
+				'public' => false,
 				'query_var' => false,
 				'hierarchical' => true,
+				'show_ui' => apply_filters( 'tf/social/show_ui', defined( 'WP_DEBUG' ) && WP_DEBUG ),
 			]
 		);
 	}

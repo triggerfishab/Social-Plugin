@@ -2,6 +2,8 @@
 
 #### Filters ####
 
+`tf/social/show_ui` Display admin UI.
+
 `tf/social/provider/request_parameters`
 
 `tf/social/provider/post_array`
