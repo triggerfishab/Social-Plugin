@@ -35,6 +35,7 @@ class YouTube extends \Triggerfish\Social\Basic_Provider {
 			'post_date' => $this->format_date( $item['snippet']['publishedAt'] ),
 			'meta_input' => [
 				'url' => add_query_arg( 'v', $item['id']['videoId'], 'https://www.youtube.com/watch?v=' ),
+				'account_name' => sanitize_text_field( $item['snippet']['channelTitle'] ),
 			],
 		];
 
