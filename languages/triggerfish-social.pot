@@ -1,0 +1,79 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-16 10:36+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#: includes/class-accounts.php:153 includes/class-accounts.php:154
+#: includes/class-accounts.php:167 includes/class-accounts.php:184
+#: includes/class-accounts.php:201 includes/class-accounts.php:217
+#: includes/class-accounts.php:232
+msgid "Accounts"
+msgstr ""
+
+#: includes/class-accounts.php:172
+msgid "Page ID"
+msgstr ""
+
+#: includes/class-accounts.php:173
+msgid ""
+"<br>Go to the Facebook page of which posts you want to include, for example: "
+"<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.facebook."
+"com/Triggerfish.se/\">https://www.facebook.com/Triggerfish.se/</a>.<br>The "
+"part containing \"Triggerfish.se\" should be entered in this field."
+msgstr ""
+
+#: includes/class-accounts.php:189 includes/class-accounts.php:222
+msgid "Username"
+msgstr ""
+
+#: includes/class-accounts.php:206
+msgid "Channel ID"
+msgstr ""
+
+#: includes/class-plugin.php:122 includes/class-plugin.php:123
+msgid "Social"
+msgstr ""
+
+#: includes/class-oauth.php:36
+msgid "You first need to supply a Client ID and Client Secret."
+msgstr ""
+
+#: includes/class-oauth.php:76
+msgid "The authorization failed. Try again."
+msgstr ""
+
+#: includes/class-oauth.php:82
+msgid "You have successfully refreshed a token."
+msgstr ""
+
+#: includes/class-settings.php:24 includes/class-settings.php:25
+#: includes/class-settings.php:115
+msgid "Settings"
+msgstr ""
+
+#: includes/class-settings.php:99 includes/class-settings.php:108
+msgid "Authorize"
+msgstr ""
+
+#. Name of the plugin
+msgid "Triggerfish Social"
+msgstr ""
+
+#. Author of the plugin
+msgid "Triggefish"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.triggerfish.se/"
+msgstr ""

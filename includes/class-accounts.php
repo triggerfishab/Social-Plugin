@@ -160,12 +160,13 @@ class Accounts {
 		$fields = [
 			acf_tab([
 				'name' => 'tf_social_facebook_account_tab',
-				'label' => __( 'Facebook', 'triggerfish-social' ),
+				'label' => 'Facebook',
 			]),
 			acf_repeater([
 				'name' => 'tf_social_facebook_accounts',
 				'label' => __( 'Accounts', 'triggerfish-social' ),
 				'max' => 5,
+				'button_label' => __( 'Add account', 'triggerfish-social' ),
 				'sub_fields' => [
 					acf_text([
 						'name' => 'id',
@@ -177,12 +178,13 @@ class Accounts {
 			]),
 			acf_tab([
 				'name' => 'tf_social_twitter_account_tab',
-				'label' => __( 'Twitter', 'triggerfish-social' ),
+				'label' => 'Twitter',
 			]),
 			acf_repeater([
 				'name' => 'tf_social_twitter_accounts',
 				'label' => __( 'Accounts', 'triggerfish-social' ),
 				'max' => 5,
+				'button_label' => __( 'Add account', 'triggerfish-social' ),
 				'sub_fields' => [
 					acf_text([
 						'name' => 'id',
@@ -194,12 +196,13 @@ class Accounts {
 			]),
 			acf_tab([
 				'name' => 'tf_social_youtube_account_tab',
-				'label' => __( 'YouTube', 'triggerfish-social' ),
+				'label' => 'YouTube',
 			]),
 			acf_repeater([
 				'name' => 'tf_social_youtube_accounts',
 				'label' => __( 'Accounts', 'triggerfish-social' ),
 				'max' => 5,
+				'button_label' => __( 'Add account', 'triggerfish-social' ),
 				'sub_fields' => [
 					acf_text([
 						'name' => 'id',
@@ -210,12 +213,13 @@ class Accounts {
 			]),
 			acf_tab([
 				'name' => 'tf_social_instagram_account_tab',
-				'label' => __( 'Instagram', 'triggerfish-social' ),
+				'label' => 'Instagram',
 			]),
 			acf_repeater([
 				'name' => 'tf_social_instagram_accounts',
 				'label' => __( 'Accounts', 'triggerfish-social' ),
 				'max' => 5,
+				'button_label' => __( 'Add account', 'triggerfish-social' ),
 				'sub_fields' => [
 					acf_text([
 						'name' => 'id',

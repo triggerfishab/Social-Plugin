@@ -3,6 +3,7 @@
 /**
  * Plugin name: Triggerfish Social
  * Version: 1.1.0
+ * Text Domain: triggerfish-social
  * Author: Triggefish
  * Author URI: https://www.triggerfish.se/
  */

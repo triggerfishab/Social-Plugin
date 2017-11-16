@@ -44,10 +44,15 @@ class Plugin {
 
 		add_action( 'init', [ $this, 'register_post_type' ] );
 		add_action( 'init', [ $this, 'register_taxonomy' ] );
+		add_action( 'init', [ $this, 'load_translations' ], 1 );
 
 		add_action( 'wpmu_new_blog', [ $this, 'new_site_created' ], 10, 1 );
 
 		add_action( self::CRON_ACTION, [ __NAMESPACE__ . '\Accounts', 'sync_all_accounts' ] );
+	}
+
+	function load_translations() {
+		load_plugin_textdomain( 'triggerfish-social', false, basename( PLUGIN_DIR ) . '/languages' );
 	}
 
 	public function register_post_type() {
@@ -118,10 +123,6 @@ class Plugin {
 			'menu_title' => __( 'Social', 'triggerfish-social' ),
 			'redirect' => true,
 		]);
-	}
-
-	public function output_menu_page() {
-		include __DIR__ . '/templates/menu-page.php';
 	}
 
 	public static function on_activation() {
