@@ -101,6 +101,10 @@ class OAuth {
 		return admin_url( sprintf( 'admin.php?_tf_provider_name=%s&_tf_oauth_action=redirect', $provider_name ) );
 	}
 
+	public static function get_redirect_uri( $provider_name ) {
+		return add_query_arg( '_tf_provider_name', $provider_name, Settings::get_admin_page_url() );
+	}
+
 	private function get_oauth_provider( $provider_name ) {
 		$provider_name = strtolower( $provider_name );
 
@@ -125,7 +129,7 @@ class OAuth {
 			return new $class_name([
 				'clientId' => $client_id,
 				'clientSecret' => $client_secret,
-				'redirectUri' => add_query_arg( '_tf_provider_name', $provider_name, Settings::get_admin_page_url() ),
+				'redirectUri' => self::get_redirect_uri( $provider_name ),
 			]);
 		} catch ( Exception $e ) {
 			return null;

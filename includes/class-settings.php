@@ -97,7 +97,16 @@ class Settings {
 			acf_message([
 				'name' => 'tf_social_instagram_authorize_button',
 				'label' => __( 'Authorize', 'triggerfish-social' ),
-				'message' => sprintf( '<a class="button-primary" href="%s">%s</a>', OAuth::get_oauth_pre_url( 'instagram' ), esc_html__( 'Authorize', 'triggerfish-social' ) ),
+				'message' => sprintf(
+					'
+					Redirect URI:
+					<pre><code>%s</code></pre>
+					<a class="button" href="%s">%s</a>
+					',
+					self::get_admin_page_url(),
+					OAuth::get_oauth_pre_url( 'instagram' ),
+					esc_html__( 'Authorize', 'triggerfish-social' )
+				),
 			]),
 		];
 
