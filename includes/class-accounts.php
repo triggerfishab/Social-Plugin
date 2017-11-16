@@ -161,6 +161,7 @@ class Accounts {
 			acf_repeater([
 				'name' => 'tf_social_facebook_accounts',
 				'label' => __( 'Accounts', 'triggerfish-social' ),
+				'max' => 5,
 				'sub_fields' => [
 					acf_text([
 						'name' => 'id',
@@ -177,6 +178,7 @@ class Accounts {
 			acf_repeater([
 				'name' => 'tf_social_twitter_accounts',
 				'label' => __( 'Accounts', 'triggerfish-social' ),
+				'max' => 5,
 				'sub_fields' => [
 					acf_text([
 						'name' => 'id',
@@ -193,6 +195,7 @@ class Accounts {
 			acf_repeater([
 				'name' => 'tf_social_youtube_accounts',
 				'label' => __( 'Accounts', 'triggerfish-social' ),
+				'max' => 5,
 				'sub_fields' => [
 					acf_text([
 						'name' => 'id',
@@ -208,6 +211,7 @@ class Accounts {
 			acf_repeater([
 				'name' => 'tf_social_instagram_accounts',
 				'label' => __( 'Accounts', 'triggerfish-social' ),
+				'max' => 5,
 				'sub_fields' => [
 					acf_text([
 						'name' => 'id',
