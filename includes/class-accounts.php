@@ -84,6 +84,10 @@ class Accounts {
 		foreach ( $deleted_accounts as $deleted_account ) {
 			$deleted_account->delete();
 		}
+
+		foreach ( $added_accounts as $added_account ) {
+			$added_account->sync();
+		}
 	}
 
 	public static function delete_account( $account_id, $provider_name ) {
