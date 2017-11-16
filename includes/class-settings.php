@@ -29,6 +29,11 @@ class Settings {
 
 	public function register_acf_fields() {
 		$fields = [
+			acf_message([
+				'name' => 'tf_social_instructions',
+				'label' => __( 'Instructions', 'triggerfish-social' ),
+				'message' => 'Se användarmanualen för mer information kring hur du tar fram inställningarna för dina sociala flöden.',
+			]),
 			// acf_email([
 			// 	'name' => 'tf_social_notify_email',
 			// 	'label' => __( 'Notify email', 'triggerfish-social' ),

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Triggerfish Social\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-16 11:33+0000\n"
-"PO-Revision-Date: 2017-11-16 11:33+0000\n"
+"POT-Creation-Date: 2017-11-16 15:42+0000\n"
+"PO-Revision-Date: 2017-11-16 15:42+0000\n"
 "Last-Translator: triggerfish_root <joi.glifberg@gmail.com>\n"
 "Language-Team: Swedish\n"
 "Language: sv-SE\n"
@@ -13,36 +13,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco - https://localise.biz/"
 
-#: includes/class-accounts.php:172
-msgid "Page ID"
-msgstr "Sida ID"
+#: includes/class-settings.php:34
+msgid "Instructions"
+msgstr "Instruktioner"
 
 #: includes/class-accounts.php:153 includes/class-accounts.php:154
-#: includes/class-accounts.php:167 includes/class-accounts.php:184
-#: includes/class-accounts.php:201 includes/class-accounts.php:217
-#: includes/class-accounts.php:232
+#: includes/class-accounts.php:167 includes/class-accounts.php:185
+#: includes/class-accounts.php:204 includes/class-accounts.php:222
+#: includes/class-accounts.php:239
 msgid "Accounts"
 msgstr "Konton"
 
-#: includes/class-accounts.php:173
-msgid ""
-"<br>Go to the Facebook page of which posts you want to include, for example: "
-"<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.facebook."
-"com/Triggerfish.se/\">https://www.facebook.com/Triggerfish.se/</a>.<br>The "
-"part containing \"Triggerfish.se\" should be entered in this field."
-msgstr ""
-"<br>Gå till den Facebook sida vars inlägg du vill inkludera, t.ex. <a "
-"target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.facebook."
-"com/Triggerfish.se/\">https://www.facebook.com/Triggerfish.se/</a>.<br>Den "
-"delen som innehåller \"Triggerfish.se\" ska läggas in i fältet."
+#: includes/class-accounts.php:169 includes/class-accounts.php:187
+#: includes/class-accounts.php:206 includes/class-accounts.php:224
+msgid "Add account"
+msgstr "Lägg till konto"
 
-#: includes/class-accounts.php:189 includes/class-accounts.php:222
+#: includes/class-accounts.php:173
+msgid "Page ID"
+msgstr "Sidans ID"
+
+#: includes/class-accounts.php:191 includes/class-accounts.php:228
 msgid "Username"
 msgstr "Användarnamn"
 
-#: includes/class-accounts.php:206
+#: includes/class-accounts.php:210
 msgid "Channel ID"
-msgstr "Kanal ID"
+msgstr "Kanalens ID"
 
 #: includes/class-plugin.php:122 includes/class-plugin.php:123
 msgid "Social"
@@ -61,11 +58,11 @@ msgid "You have successfully refreshed a token."
 msgstr "Godkännandet lyckades."
 
 #: includes/class-settings.php:24 includes/class-settings.php:25
-#: includes/class-settings.php:115
+#: includes/class-settings.php:120
 msgid "Settings"
 msgstr "Inställningar"
 
-#: includes/class-settings.php:99 includes/class-settings.php:108
+#: includes/class-settings.php:104 includes/class-settings.php:113
 msgid "Authorize"
 msgstr "Godkänn"
 

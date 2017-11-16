@@ -171,7 +171,7 @@ class Accounts {
 					acf_text([
 						'name' => 'id',
 						'label' => __( 'Page ID', 'triggerfish-social' ),
-						'instructions' => __( '<br>Go to the Facebook page of which posts you want to include, for example: <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/Triggerfish.se/">https://www.facebook.com/Triggerfish.se/</a>.<br>The part containing "Triggerfish.se" should be entered in this field.', 'triggerfish-social' ),
+						'instructions' => '<br>Gå till den Facebook sida vars inlägg du vill inkludera, t.ex. https://www.facebook.com/Bytbil/. Sidans ID hittar du i länkadressen för sidan. I detta exempel är sidans ID "Bytbil".',
 						'required' => true,
 					]),
 				],
@@ -190,6 +190,7 @@ class Accounts {
 						'name' => 'id',
 						'label' => __( 'Username', 'triggerfish-social' ),
 						'required' => true,
+						'instructions' => '<br>Lägg till användarnamn för kontot vars inlägg du vill inkludera.',
 						'prepend' => '@',
 					]),
 				],
@@ -207,6 +208,7 @@ class Accounts {
 					acf_text([
 						'name' => 'id',
 						'label' => __( 'Channel ID', 'triggerfish-social' ),
+						'instructions' => '<br>Gå till en video på en YouTube kanal vars inlägg du vill inkludera. Klicka på kanalens namn vid beskrivningen av filmen för att få länkadressen till kanalen, t.ex. https://www.youtube.com/channel/UCaY-4ndPCRKp60qXF7zBJ0w. I detta exempel är Kanalens ID "UCaY-4ndPCRKp60qXF7zBJ0w".',
 						'required' => true,
 					]),
 				],
@@ -225,6 +227,7 @@ class Accounts {
 						'name' => 'id',
 						'label' => __( 'Username', 'triggerfish-social' ),
 						'required' => true,
+						'instructions' => '<br>Lägg till användarnamn för kontot vars inlägg du vill inkludera.',
 						'prepend' => '@',
 					]),
 				],
