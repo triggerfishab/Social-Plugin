@@ -93,7 +93,8 @@ class CLI {
 		$accounts = array_map( function( $account ) {
 			return [
 				'id' => $account->get_id(),
-				'provider_name' => $account->get_provider_name(),
+				'provider name' => $account->get_provider_name(),
+				'post count' => count( $account->get_posts() ),
 			];
 		}, $accounts );
 
@@ -103,7 +104,7 @@ class CLI {
 		\WP_CLI\Utils\format_items(
 			'table',
 			$accounts,
-			[ 'id', 'provider_name' ]
+			[ 'id', 'provider name', 'post count' ]
 		);
 	}
 
