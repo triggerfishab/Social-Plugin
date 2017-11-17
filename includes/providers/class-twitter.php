@@ -23,8 +23,8 @@ class Twitter extends \Triggerfish\Social\Provider {
 			],
 		];
 
-		if ( ! empty( $item['images']['standard_resolution']['url'] ) ) {
-			$post_array['meta_input']['image'] = esc_url_raw( $item['images']['standard_resolution']['url']['src'] );
+		if ( ! empty( $item['extended_entities']['media'][0]['media_url_https'] ) ) {
+			$post_array['meta_input']['image'] = esc_url_raw( $item['extended_entities']['media'][0]['media_url_https'] );
 		}
 
 		if ( ! empty( $item['retweet_count'] ) ) {
