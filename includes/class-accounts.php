@@ -171,7 +171,7 @@ class Accounts {
 					acf_text([
 						'name' => 'id',
 						'label' => __( 'Page ID', 'triggerfish-social' ),
-						'instructions' => '<br>Gå till den Facebook sida vars inlägg du vill inkludera, t.ex. https://www.facebook.com/Bytbil/. Sidans ID hittar du i länkadressen för sidan. I detta exempel är sidans ID "Bytbil".',
+						'instructions' => '<br>Gå till den Facebook sida vars inlägg du vill inkludera, t.ex. https://www.facebook.com/Triggerfish.se/. Sidans ID hittar du i länkadressen för sidan. I detta exempel är sidans ID "Triggerfish.se".',
 						'required' => true,
 					]),
 				],
