@@ -29,11 +29,6 @@ class Settings {
 
 	public function register_acf_fields() {
 		$fields = [
-			acf_message([
-				'name' => 'tf_social_instructions',
-				'label' => __( 'Instructions', 'triggerfish-social' ),
-				'message' => 'Se användarmanualen för mer information kring hur du tar fram inställningarna för dina sociala flöden.',
-			]),
 			// acf_email([
 			// 	'name' => 'tf_social_notify_email',
 			// 	'label' => __( 'Notify email', 'triggerfish-social' ),
@@ -114,6 +109,19 @@ class Settings {
 				),
 			]),
 		];
+
+		$instruction_text = apply_filters( 'tf/social/settings/instructions', '' );
+
+		if ( $instruction_text ) {
+			array_unshift(
+				$fields,
+				acf_message([
+					'name' => 'tf_social_instructions',
+					'label' => __( 'Instructions', 'triggerfish-social' ),
+					'message' => $instruction_text,
+				])
+			);
+		}
 
 		acf_field_group([
 			'key' => 'tf_social_settings',

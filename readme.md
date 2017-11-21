@@ -12,6 +12,8 @@
 
 `tf/social/provider/wp_remote_parameters`
 
+`tf/social/settings/instructions`
+
 #### Actions ####
 
 `tf/social/account/deleting`
