@@ -24,7 +24,7 @@ abstract class Provider {
 
 		if ( true !== $valid ) {
 			if ( ! is_wp_error( $valid ) ) {
-				$valid = tf_wp_error( 'Invalid response body', $valid );
+				$valid = \tf_wp_error( 'Invalid response body', $valid );
 			}
 
 			return $valid;
@@ -238,7 +238,7 @@ abstract class Provider {
 
 	protected function validate_response( array $response ) {
 		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
-			return tf_wp_error( 'Incorrect response code', $response );
+			return \tf_wp_error( 'Incorrect response code', $response );
 		}
 
 		return true;

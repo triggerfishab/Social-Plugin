@@ -24,7 +24,7 @@ abstract class Account {
 		$provider = $this->get_provider();
 
 		if ( empty( $provider ) ) {
-			return tf_wp_error( 'Unknown provider' );
+			return \tf_wp_error( 'Unknown provider' );
 		}
 
 		return $provider->sync_account( $this );

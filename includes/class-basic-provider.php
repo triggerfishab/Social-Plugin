@@ -33,7 +33,7 @@ abstract class Basic_Provider extends \Triggerfish\Social\Provider {
 
 		if ( true !== $valid ) {
 			if ( ! is_wp_error( $valid ) ) {
-				$valid = tf_wp_error( 'Invalid response', $response );
+				$valid = \tf_wp_error( 'Invalid response', $response );
 			}
 
 			return $valid;
@@ -42,7 +42,7 @@ abstract class Basic_Provider extends \Triggerfish\Social\Provider {
 		$body = wp_remote_retrieve_body( $response );
 
 		if ( empty( $body ) ) {
-			return tf_wp_error( 'Empty response body', $response );
+			return \tf_wp_error( 'Empty response body', $response );
 		}
 
 		return $this->decode_body( $body );

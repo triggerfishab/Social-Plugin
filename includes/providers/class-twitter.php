@@ -73,12 +73,12 @@ class Twitter extends \Triggerfish\Social\Provider {
 			$items = $connection->get( 'statuses/user_timeline', $parameters );
 
 			if ( 200 !== $connection->getLastHttpCode() ) {
-				return tf_wp_error( 'Incorrect response code.', $connection->getLastBody() );
+				return \tf_wp_error( 'Incorrect response code.', $connection->getLastBody() );
 			}
 
 			return $items;
 		} catch ( \Exception $e ) {
-			return tf_wp_error( $e->getMessage(), '', $e->getCode() );
+			return \tf_wp_error( $e->getMessage(), '', $e->getCode() );
 		}
 	}
 

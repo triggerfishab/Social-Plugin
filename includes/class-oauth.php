@@ -56,12 +56,12 @@ class OAuth {
 
 				$this->oauth_result = true;
 			} catch ( \Exception $e ) {
-				$this->oauth_result = tf_wp_error( $e->getMessage(), '', $e->getCode() );
+				$this->oauth_result = \tf_wp_error( $e->getMessage(), '', $e->getCode() );
 			}
 		}
 
 		if ( ! empty( $_GET['error_reason'] ) ) {
-			$this->oauth_result = tf_wp_error( $_GET['error_description'], $_GET['error_reason'], $_GET['error'] );
+			$this->oauth_result = \tf_wp_error( $_GET['error_description'], $_GET['error_reason'], $_GET['error'] );
 		}
 	}
 

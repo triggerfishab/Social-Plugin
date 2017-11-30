@@ -54,13 +54,13 @@ class Instagram extends \Triggerfish\Social\Provider {
 		$access_token = \Triggerfish\Social\OAuth::get_access_token( $this->get_name() );
 
 		if ( empty( $access_token ) ) {
-			return tf_wp_error( 'No Access Token found.', $access_token );
+			return \tf_wp_error( 'No Access Token found.', $access_token );
 		}
 
 		$user_id = $this->get_user_id( $account_id );
 
 		if ( empty( $user_id ) ) {
-			$user_id = tf_wp_error( 'No User ID found.' );
+			$user_id = \tf_wp_error( 'No User ID found.' );
 		}
 
 		if ( is_wp_error( $user_id ) ) {
@@ -77,7 +77,7 @@ class Instagram extends \Triggerfish\Social\Provider {
 		}
 
 		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
-			return tf_wp_error( 'Incorrect response code', $response );
+			return \tf_wp_error( 'Incorrect response code', $response );
 		}
 
 		$body = wp_remote_retrieve_body( $response );
@@ -97,14 +97,14 @@ class Instagram extends \Triggerfish\Social\Provider {
 		}
 
 		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
-			return tf_wp_error( 'Incorrect response code', $response );
+			return \tf_wp_error( 'Incorrect response code', $response );
 		}
 
 		$body = wp_remote_retrieve_body( $response );
 		$body = $this->decode_body( $body );
 
 		if ( empty( $body ) ) {
-			return tf_wp_error( 'Invalid response body', $valid );
+			return \tf_wp_error( 'Invalid response body', $valid );
 		}
 
 		$users = $this->get_items_from_response_body( $body );
@@ -115,7 +115,7 @@ class Instagram extends \Triggerfish\Social\Provider {
 			}
 		}
 
-		return tf_wp_error( 'User not found.', $username );
+		return \tf_wp_error( 'User not found.', $username );
 	}
 
 	protected function get_api_url( $endpoint ) {
