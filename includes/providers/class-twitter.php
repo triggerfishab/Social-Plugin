@@ -82,4 +82,24 @@ class Twitter extends \Triggerfish\Social\Provider {
 		}
 	}
 
+	protected function eligible_for_sync( array $item, $post_id ) {
+		if ( empty( $post_id ) ) {
+			return true;
+		}
+
+		$post = get_post( $post_id );
+
+		if ( empty( $post ) ) {
+			return true;
+		}
+
+		if ( ! isset( $item['created_at'] ) ) {
+			return true;
+		}
+
+		$item_date = $this->format_date( $item['created_at'] );
+
+		return ( $item_date > $post->post_modified );
+	}
+
 }
