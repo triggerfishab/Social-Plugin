@@ -74,6 +74,12 @@ abstract class Account {
 					'field' => 'name',
 				],
 			],
+			'meta_query' => [
+				[
+					'key' => '_provider_name',
+					'value' => $this->get_provider_name(),
+				],
+			],
 		]);
 
 		return $query->posts;

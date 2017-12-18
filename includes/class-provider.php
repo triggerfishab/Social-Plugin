@@ -128,7 +128,6 @@ abstract class Provider {
 	}
 
 	protected function get_terms_to_set( $account_id ) {
-		$account_term_id = $this->get_account_term_id( $account_id );
 		$provider_term_id = $this->get_provider_term_id( $account_id );
 
 		if ( empty( $provider_term_id ) ) {
@@ -143,6 +142,8 @@ abstract class Provider {
 
 			$provider_term_id = $result['term_id'];
 		}
+
+		$account_term_id = $this->get_account_term_id( $account_id );
 
 		if ( empty( $account_term_id ) ) {
 			$result = wp_insert_term(
@@ -199,6 +200,7 @@ abstract class Provider {
 			'number' => 2,
 			'hide_empty' => false,
 			'update_term_meta_cache' => false,
+			'parent' => $this->get_provider_term_id(),
 			'name' => $account_id,
 			'fields' => 'ids',
 		]);
