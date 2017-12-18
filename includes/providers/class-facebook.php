@@ -66,7 +66,9 @@ class Facebook extends \Triggerfish\Social\Basic_Provider {
 			return true;
 		}
 
-		return ( strtotime( $item['updated_time'] ) > strtotime( $post->post_modified ) );
+		$item_date = $this->format_date( $item['updated_time'] );
+
+		return ( $item_date > $post->post_modified );
 	}
 
 }
