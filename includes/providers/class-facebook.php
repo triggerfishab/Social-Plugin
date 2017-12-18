@@ -27,11 +27,14 @@ class Facebook extends \Triggerfish\Social\Basic_Provider {
 	protected function format_item_to_post_array( $item ) : array {
 		$post_array = [
 			'post_title' => '',
-			'post_content' => $this->create_links( $item['message'] ),
 			'post_status' => 'publish',
 			'post_date' => $this->format_date( $item['created_time'] ),
 			'meta_input' => [],
 		];
+
+		if ( ! empty( $item['message'] ) ) {
+			$post_array['post_content'] = $this->create_links( $item['message'] );
+		}
 
 		if ( ! empty( $item['link'] ) ) {
 			$post_array['meta_input']['url'] = esc_url_raw( $item['link'] );
