@@ -84,7 +84,7 @@ class CLI {
 	 *
 	 */
 	public function get_all_accounts() {
-		$accounts = Accounts::get_all_accounts( $provider_name );
+		$accounts = Accounts::get_all_accounts();
 
 		if ( empty( $accounts ) ) {
 			\WP_CLI::success( 'No accounts found' );
