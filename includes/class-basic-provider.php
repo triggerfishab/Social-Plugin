@@ -25,7 +25,7 @@ abstract class Basic_Provider extends \Triggerfish\Social\Provider {
 
 		$response = $this->request( $url );
 
-		if ( is_wp_error( $responses ) ) {
+		if ( is_wp_error( $response ) ) {
 			return $response;
 		}
 
