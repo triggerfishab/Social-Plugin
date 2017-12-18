@@ -45,10 +45,32 @@ class Plugin {
 		add_action( 'init', [ $this, 'register_post_type' ] );
 		add_action( 'init', [ $this, 'register_taxonomy' ] );
 		add_action( 'init', [ $this, 'load_translations' ], 1 );
+		add_action( 'wp_loaded', [ $this, 'version_check' ] );
 
 		add_action( 'wpmu_new_blog', [ $this, 'new_site_created' ], 10, 1 );
 
 		add_action( self::CRON_ACTION, [ __NAMESPACE__ . '\Accounts', 'sync_all_accounts' ] );
+	}
+
+	function version_check() {
+		$current_version = $this->get_db_version();
+		$plugin_version = $this->get_plugin_version();
+
+		if ( $current_version !== $plugin_version ) {
+			$this->upgrade( $current_version );
+		}
+
+		return update_option( 'triggerfish_social_installed_version', $plugin_version );
+	}
+
+	private function upgrade( $current_version ) {}
+
+	function get_db_version() {
+		return get_option( 'triggerfish_social_installed_version', false );
+	}
+
+	function get_plugin_version() {
+		return PLUGIN_VERSION;
 	}
 
 	function load_translations() {
