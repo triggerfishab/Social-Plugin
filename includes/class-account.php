@@ -10,9 +10,9 @@ abstract class Account {
 
 	private $id;
 
-	abstract public function get_provider_name() : string;
+	abstract public function get_provider_name();
 
-	public function __construct( string $id ) {
+	public function __construct( $id ) {
 		$this->id = $id;
 	}
 
@@ -61,7 +61,7 @@ abstract class Account {
 		return true;
 	}
 
-	public function get_posts( int $posts_per_page = -1 ) : array {
+	public function get_posts( $posts_per_page = -1 ) {
 		$query = new \WP_Query([
 			'post_type' => Plugin::POST_TYPE,
 			'posts_per_page' => $posts_per_page,

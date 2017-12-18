@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Twitter extends \Triggerfish\Social\Account {
 
-	public function get_provider_name() : string {
+	public function get_provider_name() {
 		return 'twitter';
 	}
 

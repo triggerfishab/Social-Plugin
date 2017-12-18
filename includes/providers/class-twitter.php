@@ -12,7 +12,7 @@ class Twitter extends \Triggerfish\Social\Provider {
 		return 'twitter';
 	}
 
-	protected function format_item_to_post_array( $item ) : array {
+	protected function format_item_to_post_array( $item ) {
 		$post_array = [
 			'post_title' => '',
 			'post_content' => $this->create_links( $item['text'] ),
@@ -48,7 +48,7 @@ class Twitter extends \Triggerfish\Social\Provider {
 		return $post_array;
 	}
 
-	protected function get_items_from_response_body( $items ) : array {
+	protected function get_items_from_response_body( $items ) {
 		return $items;
 	}
 
@@ -82,7 +82,7 @@ class Twitter extends \Triggerfish\Social\Provider {
 		}
 	}
 
-	protected function eligible_for_sync( array $item, $post_id ) {
+	protected function eligible_for_sync( $item, $post_id ) {
 		if ( empty( $post_id ) ) {
 			return true;
 		}

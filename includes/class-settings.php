@@ -34,68 +34,96 @@ class Settings {
 			// 	'label' => __( 'Notify email', 'triggerfish-social' ),
 			// 	'instructions' => __( 'If something goes wrong with the social integration, an email will be sent to this email address.', 'triggerfish-social' ),
 			// ]),
-			acf_tab([
+			[
+				'key' => 'field_tf_social_settings_tf_social_facebook_tab',
 				'name' => 'tf_social_facebook_tab',
+				'type' => 'tab',
 				'label' => 'Facebook',
-			]),
-			acf_text([
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_facebook_app_id',
 				'name' => 'tf_social_facebook_app_id',
+				'type' => 'text',
 				'label' => 'App ID',
 				'wrapper' => [ 'width' => 50 ],
-			]),
-			acf_text([
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_facebook_app_secret',
 				'name' => 'tf_social_facebook_app_secret',
+				'type' => 'text',
 				'label' => 'App Secret',
 				'wrapper' => [ 'width' => 50 ],
-			]),
-			acf_tab([
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_twitter_tab',
 				'name' => 'tf_social_twitter_tab',
+				'type' => 'tab',
 				'label' => 'Twitter',
-			]),
-			acf_text([
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_twitter_access_token',
 				'name' => 'tf_social_twitter_access_token',
+				'type' => 'text',
 				'label' => 'Access Token',
 				'wrapper' => [ 'width' => 50 ],
-			]),
-			acf_text([
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_twitter_access_token_secret',
 				'name' => 'tf_social_twitter_access_token_secret',
+				'type' => 'text',
 				'label' => 'Access Token Secret',
 				'wrapper' => [ 'width' => 50 ],
-			]),
-			acf_text([
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_twitter_consumer_key',
 				'name' => 'tf_social_twitter_consumer_key',
+				'type' => 'text',
 				'label' => 'Consumer Key',
 				'wrapper' => [ 'width' => 50 ],
-			]),
-			acf_text([
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_twitter_consumer_secret',
 				'name' => 'tf_social_twitter_consumer_secret',
+				'type' => 'text',
 				'label' => 'Consumer Secret',
 				'wrapper' => [ 'width' => 50 ],
-			]),
-			acf_tab([
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_youtube_tab',
 				'name' => 'tf_social_youtube_tab',
+				'type' => 'tab',
 				'label' => 'YouTube',
-			]),
-			acf_text([
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_youtube_api_key',
 				'name' => 'tf_social_youtube_api_key',
+				'type' => 'text',
 				'label' => 'API Key',
-			]),
-			acf_tab([
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_instagram_tab',
 				'name' => 'tf_social_instagram_tab',
+				'type' => 'tab',
 				'label' => 'Instagram',
-			]),
-			acf_text([
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_instagram_client_id',
 				'name' => 'tf_social_instagram_client_id',
+				'type' => 'text',
 				'label' => 'Client ID',
 				'wrapper' => [ 'width' => 50 ],
-			]),
-			acf_text([
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_instagram_client_secret',
 				'name' => 'tf_social_instagram_client_secret',
+				'type' => 'text',
 				'label' => 'Client Secret',
 				'wrapper' => [ 'width' => 50 ],
-			]),
-			acf_message([
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_instagram_authorize_button',
 				'name' => 'tf_social_instagram_authorize_button',
+				'type' => 'message',
 				'label' => __( 'Authorize', 'triggerfish-social' ),
 				'message' => sprintf(
 					'
@@ -107,7 +135,7 @@ class Settings {
 					OAuth::get_oauth_pre_url( 'instagram' ),
 					esc_html__( 'Authorize', 'triggerfish-social' )
 				),
-			]),
+			],
 		];
 
 		$instruction_text = apply_filters( 'tf/social/settings/instructions', '' );
@@ -115,21 +143,27 @@ class Settings {
 		if ( $instruction_text ) {
 			array_unshift(
 				$fields,
-				acf_message([
+				[
+					'key' => 'field_tf_social_settings_tf_social_instructions',
 					'name' => 'tf_social_instructions',
+					'type' => 'message',
 					'label' => __( 'Instructions', 'triggerfish-social' ),
 					'message' => $instruction_text,
-				])
+				]
 			);
 		}
 
-		acf_field_group([
+		acf_add_local_field_group([
 			'key' => 'tf_social_settings',
 			'title' => __( 'Settings', 'triggerfish-social' ),
 			'fields' => $fields,
 			'location' => [
 				[
-					acf_location( 'options_page', self::SLUG ),
+					[
+						'param' => 'options_page',
+						'operator' => '==',
+						'value' => self::SLUG,
+					],
 				],
 			],
 		]);

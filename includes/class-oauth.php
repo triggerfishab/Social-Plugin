@@ -136,19 +136,19 @@ class OAuth {
 		}
 	}
 
-	public static function get_client_id( string $provider_name ) {
+	public static function get_client_id( $provider_name ) {
 		return Settings::get_field( sprintf( '%s_client_id', $provider_name ) );
 	}
 
-	public static function get_client_secret( string $provider_name ) {
+	public static function get_client_secret( $provider_name ) {
 		return Settings::get_field( sprintf( '%s_client_secret', $provider_name ) );
 	}
 
-	public static function set_access_token( string $provider_name, string $access_token ) : bool {
+	public static function set_access_token( $provider_name, $access_token ) {
 		return update_option( sprintf( '_tf_social_%s_access_token', $provider_name ), $access_token, false );
 	}
 
-	public static function get_access_token( string $provider_name ) : string {
+	public static function get_access_token( $provider_name ) {
 		return get_option( sprintf( '_tf_social_%s_access_token', $provider_name ), '' );
 	}
 

@@ -12,11 +12,11 @@ class Facebook extends \Triggerfish\Social\Basic_Provider {
 		return 'facebook';
 	}
 
-	protected function get_url( $account_id ) : string {
+	protected function get_url( $account_id ) {
 		return sprintf( 'https://graph.facebook.com/v2.11/%s/posts', $account_id );
 	}
 
-	protected function get_remote_request_parameters( $account_id ) : array {
+	protected function get_remote_request_parameters( $account_id ) {
 		return [
 			'fields' => 'created_time,updated_time,link,message,attachments',
 			'access_token' => sprintf( '%s|%s', \Triggerfish\Social\Settings::get_field( 'facebook_app_id' ), \Triggerfish\Social\Settings::get_field( 'facebook_app_secret' ) ),
@@ -24,7 +24,7 @@ class Facebook extends \Triggerfish\Social\Basic_Provider {
 		];
 	}
 
-	protected function format_item_to_post_array( $item ) : array {
+	protected function format_item_to_post_array( $item ) {
 		$post_array = [
 			'post_title' => '',
 			'post_status' => 'publish',
@@ -47,11 +47,11 @@ class Facebook extends \Triggerfish\Social\Basic_Provider {
 		return $post_array;
 	}
 
-	protected function get_items_from_response_body( $items ) : array {
+	protected function get_items_from_response_body( $items ) {
 		return $items['data'];
 	}
 
-	protected function eligible_for_sync( array $item, $post_id ) {
+	protected function eligible_for_sync( $item, $post_id ) {
 		if ( empty( $post_id ) ) {
 			return true;
 		}

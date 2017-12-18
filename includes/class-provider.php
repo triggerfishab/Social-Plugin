@@ -11,8 +11,8 @@ abstract class Provider {
 	const DATE_FORMAT = 'Y-m-d H:i:s';
 
 	abstract public function get_name();
-	abstract protected function format_item_to_post_array( $item ) : array;
-	abstract protected function get_items_from_response_body( $body ) : array;
+	abstract protected function format_item_to_post_array( $item );
+	abstract protected function get_items_from_response_body( $body );
 	abstract protected function get_decoded_response_body( $account_id );
 
 	final public function sync_account( $account ) {
@@ -162,7 +162,7 @@ abstract class Provider {
 		return [ $provider_term_id, $account_term_id ];
 	}
 
-	protected function get_post_id( $external_id ) : int {
+	protected function get_post_id( $external_id ) {
 		$query = new \WP_Query([
 			'post_type' => Plugin::POST_TYPE,
 			'post_status' => 'any',
@@ -194,7 +194,7 @@ abstract class Provider {
 		return 0;
 	}
 
-	public function get_account_term_id( $account_id ) : int {
+	public function get_account_term_id( $account_id ) {
 		$terms = get_terms([
 			'taxonomy' => Plugin::TAXONOMY,
 			'number' => 2,
@@ -212,7 +212,7 @@ abstract class Provider {
 		return 0;
 	}
 
-	public function get_provider_term_id() : int {
+	public function get_provider_term_id() {
 		$terms = get_terms([
 			'taxonomy' => Plugin::TAXONOMY,
 			'number' => 2,
@@ -230,15 +230,15 @@ abstract class Provider {
 		return 0;
 	}
 
-	protected function get_external_unique_id( array $item ) : string {
+	protected function get_external_unique_id( $item ) {
 		return strval( $item['id'] );
 	}
 
-	protected function decode_body( string $body ) : array {
+	protected function decode_body( $body ) {
 		return json_decode( $body, true );
 	}
 
-	protected function validate_response( array $response ) {
+	protected function validate_response( $response ) {
 		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
 			return \tf_wp_error( 'Incorrect response code', $response );
 		}
@@ -254,12 +254,12 @@ abstract class Provider {
 		return ( ! empty( $body ) );
 	}
 
-	protected function get_limit() : int {
+	protected function get_limit() {
 		$limit = apply_filters( 'tf/social/provider/limit_per_account', 10 );
 		return apply_filters( sprintf( 'tf/social/provider/%s/limit_per_account', $this->get_name() ), $limit );
 	}
 
-	protected function request( string $url ) {
+	protected function request( $url ) {
 		$wp_remote_parameters = apply_filters( 'tf/social/provider/wp_remote_parameters', [] );
 		$wp_remote_parameters = apply_filters( sprintf( 'tf/social/provider/%s/wp_remote_parameters', $this->get_name() ), $wp_remote_parameters );
 
@@ -269,14 +269,14 @@ abstract class Provider {
 		);
 	}
 
-	protected function format_date( string $date_string ) : string {
+	protected function format_date( $date_string ) {
 		$datetime = new \DateTime( $date_string );
 		$datetime->setTimeZone( new \DateTimeZone( get_option( 'timezone_string', 'Europe/Stockholm' ) ) );
 
 		return $datetime->format( $this->get_date_format() );
 	}
 
-	protected function create_links( string $string ) : string {
+	protected function create_links( $string ) {
 		return preg_replace(
 			'~[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]~',
 			"<a href=\"\\0\">\\0</a>",
@@ -284,11 +284,11 @@ abstract class Provider {
 		);
 	}
 
-	protected function validate_item( array $item ) {
+	protected function validate_item( $item ) {
 		return true;
 	}
 
-	protected function eligible_for_sync( array $item, $post_id ) {
+	protected function eligible_for_sync( $item, $post_id ) {
 		return true;
 	}
 

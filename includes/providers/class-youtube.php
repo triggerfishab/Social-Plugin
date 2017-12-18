@@ -12,11 +12,11 @@ class YouTube extends \Triggerfish\Social\Basic_Provider {
 		return 'youtube';
 	}
 
-	protected function get_url( $account_id ) : string {
+	protected function get_url( $account_id ) {
 		return sprintf( 'https://www.googleapis.com/youtube/v3/search', $account_id );
 	}
 
-	protected function get_remote_request_parameters( $account_id ) : array {
+	protected function get_remote_request_parameters( $account_id ) {
 		return [
 			'channelId' => $account_id,
 			'key' => \Triggerfish\Social\Settings::get_field( 'youtube_api_key' ),
@@ -27,7 +27,7 @@ class YouTube extends \Triggerfish\Social\Basic_Provider {
 		];
 	}
 
-	protected function format_item_to_post_array( $item ) : array {
+	protected function format_item_to_post_array( $item ) {
 		$post_array = [
 			'post_title' => sanitize_text_field( $item['snippet']['title'] ),
 			'post_content' => $this->create_links( $item['snippet']['description'] ),
@@ -46,11 +46,11 @@ class YouTube extends \Triggerfish\Social\Basic_Provider {
 		return $post_array;
 	}
 
-	protected function get_items_from_response_body( $items ) : array {
+	protected function get_items_from_response_body( $items ) {
 		return $items['items'];
 	}
 
-	protected function get_external_unique_id( array $item ) : string {
+	protected function get_external_unique_id( $item ) {
 		return strval( $item['id']['videoId'] );
 	}
 

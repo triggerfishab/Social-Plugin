@@ -117,10 +117,10 @@ class Plugin {
 		];
 	}
 
-	public static function get_provider_class( string $provider ) {
+	public static function get_provider_class( $provider ) {
 		$providers = self::get_provider_class_map();
 
-		return $providers[ $provider ] ?? null;
+		return isset( $providers[ $provider ] ) ? $providers[ $provider ] : null;
 	}
 
 	public static function get_account_class_map() {
@@ -132,10 +132,10 @@ class Plugin {
 		];
 	}
 
-	public static function get_account_class( string $account ) {
+	public static function get_account_class( $account ) {
 		$accounts = self::get_account_class_map();
 
-		return $accounts[ $account ] ?? null;
+		return isset( $accounts[ $account ] ) ? $accounts[ $account ] : null;
 	}
 
 	public function admin_menu() {

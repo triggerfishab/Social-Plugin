@@ -8,8 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 abstract class Basic_Provider extends \Triggerfish\Social\Provider {
 
-	abstract protected function get_url( $account_id ) : string;
-	abstract protected function get_remote_request_parameters( $account_id ) : array;
+	abstract protected function get_url( $account_id );
+	abstract protected function get_remote_request_parameters( $account_id );
 
 	protected function get_decoded_response_body( $account_id ) {
 		$parameters = apply_filters( 'tf/social/provider/request_parameters', [] );

@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Instagram extends \Triggerfish\Social\Account {
 
-	public function get_provider_name() : string {
+	public function get_provider_name() {
 		return 'instagram';
 	}
 
