@@ -256,6 +256,30 @@ class Accounts {
 					],
 				],
 			],
+			[
+				'key' => 'field_tf_social_accounts_tf_social_linkedin_account_tab',
+				'name' => 'tf_social_linkedin_account_tab',
+				'label' => 'LinkedIn',
+				'type' => 'tab',
+			],
+			[
+				'key' => 'field_tf_social_accounts_tf_social_linkedin_accounts',
+				'name' => 'tf_social_linkedin_accounts',
+				'label' => __( 'Accounts', 'triggerfish-social' ),
+				'max' => 5,
+				'button_label' => __( 'Add account', 'triggerfish-social' ),
+				'type' => 'repeater',
+				'sub_fields' => [
+					[
+						'key' => 'field_tf_social_accounts_tf_social_linkedin_accounts_id',
+						'name' => 'id',
+						'label' => __( 'Company ID', 'triggerfish-social' ),
+						'type' => 'number',
+						'required' => true,
+						'instructions' => '<br>På LinkedIn, gå till företaget vars inlägg du vill inkludera.<br>T.ex. https://www.linkedin.com/company/1579477/, där "1579477" är Företagets ID.',
+					],
+				],
+			],
 		];
 
 		acf_add_local_field_group([

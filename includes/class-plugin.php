@@ -28,6 +28,7 @@ class Plugin {
 		include_once PLUGIN_DIR . '/includes/accounts/class-twitter.php';
 		include_once PLUGIN_DIR . '/includes/accounts/class-youtube.php';
 		include_once PLUGIN_DIR . '/includes/accounts/class-instagram.php';
+		include_once PLUGIN_DIR . '/includes/accounts/class-linkedin.php';
 
 		include_once PLUGIN_DIR . '/includes/class-provider.php';
 		include_once PLUGIN_DIR . '/includes/class-basic-provider.php';
@@ -35,6 +36,7 @@ class Plugin {
 		include_once PLUGIN_DIR . '/includes/providers/class-twitter.php';
 		include_once PLUGIN_DIR . '/includes/providers/class-youtube.php';
 		include_once PLUGIN_DIR . '/includes/providers/class-instagram.php';
+		include_once PLUGIN_DIR . '/includes/providers/class-linkedin.php';
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			include_once PLUGIN_DIR . '/includes/class-cli.php';
@@ -81,7 +83,6 @@ class Plugin {
 		register_post_type( self::POST_TYPE, [
 			'public' => false,
 			'query_var' => false,
-			'supports' => false,
 			'show_ui' => apply_filters( 'tf/social/show_ui', defined( 'WP_DEBUG' ) && WP_DEBUG ),
 		]);
 	}
@@ -105,6 +106,7 @@ class Plugin {
 			'twitter',
 			'youtube',
 			'instagram',
+			'linkedin',
 		];
 	}
 
@@ -114,6 +116,7 @@ class Plugin {
 			'twitter' => 'Triggerfish\Social\Provider\Twitter',
 			'youtube' => 'Triggerfish\Social\Provider\YouTube',
 			'instagram' => 'Triggerfish\Social\Provider\Instagram',
+			'linkedin' => 'Triggerfish\Social\Provider\LinkedIn',
 		];
 	}
 
@@ -129,6 +132,7 @@ class Plugin {
 			'twitter' => 'Triggerfish\Social\Account\Twitter',
 			'youtube' => 'Triggerfish\Social\Account\YouTube',
 			'instagram' => 'Triggerfish\Social\Account\Instagram',
+			'linkedin' => 'Triggerfish\Social\Account\LinkedIn',
 		];
 	}
 

@@ -136,6 +136,42 @@ class Settings {
 					esc_html__( 'Authorize', 'triggerfish-social' )
 				),
 			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_linkedin_tab',
+				'name' => 'tf_social_linkedin_tab',
+				'type' => 'tab',
+				'label' => 'LinkedIn',
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_linkedin_client_id',
+				'name' => 'tf_social_linkedin_client_id',
+				'type' => 'text',
+				'label' => 'Client ID',
+				'wrapper' => [ 'width' => 50 ],
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_linkedin_client_secret',
+				'name' => 'tf_social_linkedin_client_secret',
+				'type' => 'text',
+				'label' => 'Client Secret',
+				'wrapper' => [ 'width' => 50 ],
+			],
+			[
+				'key' => 'field_tf_social_settings_tf_social_linkedin_authorize_button',
+				'name' => 'tf_social_linkedin_authorize_button',
+				'type' => 'message',
+				'label' => __( 'Authorize', 'triggerfish-social' ),
+				'message' => sprintf(
+					'
+					Redirect URI:
+					<pre><code>%s</code></pre>
+					<a class="button" href="%s">%s</a>
+					',
+					self::get_admin_page_url(),
+					OAuth::get_oauth_pre_url( 'linkedin' ),
+					esc_html__( 'Authorize', 'triggerfish-social' )
+				),
+			],
 		];
 
 		$instruction_text = apply_filters( 'tf/social/settings/instructions', '' );

@@ -53,13 +53,13 @@ abstract class Provider {
 
 			$current_external_ids[] = $external_id;
 
-			$post_array = $this->format_item_to_post_array( $item );
-
 			$post_id = $this->get_post_id( $external_id );
 
 			if ( true !== $this->eligible_for_sync( $item, $post_id ) ) {
 				continue;
 			}
+
+			$post_array = $this->format_item_to_post_array( $item );
 
 			$post_array = apply_filters( 'tf/social/provider/post_array', $post_array, $item );
 			$post_array = apply_filters( sprintf( 'tf/social/provider/%s/post_array', $this->get_name() ), $post_array, $item );
@@ -260,7 +260,8 @@ abstract class Provider {
 	}
 
 	protected function request( $url ) {
-		$wp_remote_parameters = apply_filters( 'tf/social/provider/wp_remote_parameters', [] );
+		$wp_remote_parameters = $this->get_wp_remote_parameters();
+		$wp_remote_parameters = apply_filters( 'tf/social/provider/wp_remote_parameters', $wp_remote_parameters );
 		$wp_remote_parameters = apply_filters( sprintf( 'tf/social/provider/%s/wp_remote_parameters', $this->get_name() ), $wp_remote_parameters );
 
 		return wp_remote_get(
@@ -294,6 +295,14 @@ abstract class Provider {
 
 	final public function get_date_format() {
 		return self::DATE_FORMAT;
+	}
+
+	protected function get_access_token() {
+		return \Triggerfish\Social\OAuth::get_access_token( $this->get_name() );
+	}
+
+	protected function get_wp_remote_parameters() {
+		return [];
 	}
 
 	public static function instance() {

@@ -39,11 +39,16 @@ class OAuth {
 				);
 			}
 
-			wp_redirect( $oauth_provider->getAuthorizationUrl( [ 'scope' => 'basic public_content' ] ) );
+			wp_redirect( $oauth_provider->getAuthorizationUrl(
+				[
+					'scope' => self::get_provider_scope( $provider_name ),
+					'state' => wp_create_nonce( $provider_name ),
+				]
+			) );
 			exit;
 		}
 
-		if ( ! empty( $_GET['state'] ) ) {
+		if ( ! empty( $_GET['state'] ) && wp_verify_nonce( $_GET['state'], $provider_name ) ) {
 			try {
 				$oauth_provider = $this->get_oauth_provider( $provider_name );
 
@@ -55,6 +60,16 @@ class OAuth {
 				self::set_access_token( $provider_name, $token->getToken() );
 
 				$this->oauth_result = true;
+
+				if ( 'linkedin' === $provider_name ) {
+					$provider = new Provider\LinkedIn;
+
+					$companies = $provider->get_companies();
+
+					if ( empty( $companies ) || is_wp_error( $companies ) ) {
+						$this->oauth_result = 'Användaren ni har godkänt LinkedIn med har inget företag kopplat till sig.';
+					}
+				}
 			} catch ( \Exception $e ) {
 				$this->oauth_result = \tf_wp_error( $e->getMessage(), '', $e->getCode() );
 			}
@@ -82,15 +97,38 @@ class OAuth {
 				<p><strong><?php _e( 'You have successfully refreshed a token.', 'triggerfish-social' ); ?></strong></p>
 			</div>
 			<?php
+		} elseif ( is_string( $this->oauth_result ) ) {
+			?>
+			<div class="notice notice-success is-dismissible">
+				<p><strong><?php _e( 'You have successfully refreshed a token.', 'triggerfish-social' ); ?></strong></p>
+			</div>
+			<?php
 		}
 	}
 
 	public static function get_provider_names() {
-		return [ 'instagram' ];
+		return [
+			'instagram' => 'Instagram',
+			'linkedin' => 'LinkedIn',
+		];
+	}
+
+	public static function get_provider_scope( $provider ) {
+		switch ( $provider ) {
+			case 'instagram':
+				return 'basic public_content';
+
+			case 'linkedin':
+				return 'r_basicprofile rw_company_admin';
+		}
+
+		return '';
 	}
 
 	public static function is_valid_provider_name( $provider_name ) {
-		return in_array( $provider_name, self::get_provider_names() );
+		$providers = self::get_provider_names();
+
+		return isset( $providers[ $provider_name ] );
 	}
 
 	public static function get_oauth_pre_url( $provider_name ) {
@@ -120,7 +158,7 @@ class OAuth {
 		}
 
 		try {
-			$class_name = sprintf( 'League\OAuth2\Client\Provider\%s', ucfirst( $provider_name ) );
+			$class_name = sprintf( 'League\OAuth2\Client\Provider\%s', $provider_name );
 
 			if ( ! class_exists( $class_name ) ) {
 				return null;
