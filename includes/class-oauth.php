@@ -113,6 +113,16 @@ class OAuth {
 		];
 	}
 
+	public static function get_provider_class_name( $provider_name ) {
+		$provider_names = self::get_provider_names();
+
+		if ( isset( $provider_names[ $provider_name ] ) ) {
+			return $provider_names[ $provider_name ];
+		}
+
+		return null;
+	}
+
 	public static function get_provider_scope( $provider ) {
 		switch ( $provider ) {
 			case 'instagram':
@@ -158,7 +168,7 @@ class OAuth {
 		}
 
 		try {
-			$class_name = sprintf( 'League\OAuth2\Client\Provider\%s', $provider_name );
+			$class_name = sprintf( '\League\OAuth2\Client\Provider\%s', self::get_provider_class_name( $provider_name ) );
 
 			if ( ! class_exists( $class_name ) ) {
 				return null;
