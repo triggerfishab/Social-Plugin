@@ -2,6 +2,8 @@
 
 namespace Triggerfish\Social;
 
+use WP_Error;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
@@ -12,13 +14,13 @@ class Providers {
 		$providers = Plugin::get_provider_class_map( $provider_name );
 
 		if ( ! isset( $providers[ $provider_name ] ) ) {
-			return \tf_wp_error( 'Unknown provider', $provider_name );
+			return new WP_Error( 'social-plugin', 'Unknown provider', $provider_name );
 		}
 
 		$accounts = Accounts::get_provider_accounts( $provider_name );
 
 		if ( empty( $accounts ) ) {
-			return \tf_wp_error( 'No accounts found.' );
+			return new WP_Error( 'social-plugin', 'No accounts found.' );
 		}
 
 		$result = [];

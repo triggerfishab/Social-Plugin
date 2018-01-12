@@ -2,6 +2,8 @@
 
 namespace Triggerfish\Social\Provider;
 
+use WP_Error;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
@@ -73,12 +75,12 @@ class Twitter extends \Triggerfish\Social\Provider {
 			$items = $connection->get( 'statuses/user_timeline', $parameters );
 
 			if ( 200 !== $connection->getLastHttpCode() ) {
-				return \tf_wp_error( 'Incorrect response code.', $connection->getLastBody() );
+				return new WP_Error( 'social-plugin', 'Incorrect response code.', $connection->getLastBody() );
 			}
 
 			return $items;
 		} catch ( \Exception $e ) {
-			return \tf_wp_error( $e->getMessage(), '', $e->getCode() );
+			return new WP_Error( 'social-plugin', $e->getMessage(), '', $e->getCode() );
 		}
 	}
 

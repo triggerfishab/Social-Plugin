@@ -2,6 +2,8 @@
 
 namespace Triggerfish\Social;
 
+use WP_Error;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
@@ -71,12 +73,12 @@ class OAuth {
 					}
 				}
 			} catch ( \Exception $e ) {
-				$this->oauth_result = \tf_wp_error( $e->getMessage(), '', $e->getCode() );
+				$this->oauth_result = new WP_Error( 'social-plugin', $e->getMessage(), '', $e->getCode() );
 			}
 		}
 
 		if ( ! empty( $_GET['error_reason'] ) ) {
-			$this->oauth_result = \tf_wp_error( $_GET['error_description'], $_GET['error_reason'], $_GET['error'] );
+			$this->oauth_result = new WP_Error( 'social-plugin', $_GET['error_description'], $_GET['error_reason'], $_GET['error'] );
 		}
 	}
 

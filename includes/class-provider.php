@@ -2,6 +2,8 @@
 
 namespace Triggerfish\Social;
 
+use WP_Error;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
@@ -24,7 +26,7 @@ abstract class Provider {
 
 		if ( true !== $valid ) {
 			if ( ! is_wp_error( $valid ) ) {
-				$valid = \tf_wp_error( 'Invalid response body', $valid );
+				$valid = new WP_Error( 'social-plugin', 'Invalid response body', $valid );
 			}
 
 			return $valid;
@@ -240,7 +242,7 @@ abstract class Provider {
 
 	protected function validate_response( $response ) {
 		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
-			return \tf_wp_error( 'Incorrect response code', $response );
+			return new WP_Error( 'social-plugin', 'Incorrect response code', $response );
 		}
 
 		return true;

@@ -2,6 +2,8 @@
 
 namespace Triggerfish\Social;
 
+use WP_Error;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
@@ -94,7 +96,7 @@ class Accounts {
 		$account_class = Plugin::get_account_class( $provider_name );
 
 		if ( empty( $account_class ) ) {
-			return \tf_wp_error( 'Unknown Provider' );
+			return new WP_Error( 'social-plugin', 'Unknown Provider' );
 		}
 
 		$account = new $account_class( $account_id );
