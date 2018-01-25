@@ -14,13 +14,14 @@ class Instagram extends \Triggerfish\Social\Provider {
 		return 'instagram';
 	}
 
-	protected function format_item_to_post_array( $item ) {
+	protected function format_item_to_post_array( $item, $account_id ) {
 		$post_array = [
 			'post_title' => '',
 			'post_content' => $this->create_links( $item['caption']['text'] ),
 			'post_status' => 'publish',
 			'post_date' => date_i18n( $this->get_date_format(), $item['created_time'] ),
 			'meta_input' => [
+				'account_name' => $account_id,
 				'url' => esc_url_raw( $item['link'] ),
 			],
 		];

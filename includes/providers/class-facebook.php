@@ -24,12 +24,14 @@ class Facebook extends \Triggerfish\Social\Basic_Provider {
 		];
 	}
 
-	protected function format_item_to_post_array( $item ) {
+	protected function format_item_to_post_array( $item, $account_id ) {
 		$post_array = [
 			'post_title' => '',
 			'post_status' => 'publish',
 			'post_date' => $this->format_date( $item['created_time'] ),
-			'meta_input' => [],
+			'meta_input' => [
+				'account_name' => $account_id,
+			],
 		];
 
 		if ( ! empty( $item['message'] ) ) {

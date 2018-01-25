@@ -14,13 +14,14 @@ class Twitter extends \Triggerfish\Social\Provider {
 		return 'twitter';
 	}
 
-	protected function format_item_to_post_array( $item ) {
+	protected function format_item_to_post_array( $item, $account_id ) {
 		$post_array = [
 			'post_title' => '',
 			'post_content' => $this->create_links( $item['text'] ),
 			'post_status' => 'publish',
 			'post_date' => $this->format_date( $item['created_at'] ),
 			'meta_input' => [
+				'account_name' => $account_id,
 				'url' => esc_url_raw( sprintf( 'https://www.twitter.com/%s/status/%s', $item['user']['screen_name'], $item['id'] ) ),
 			],
 		];

@@ -24,7 +24,7 @@ class LinkedIn extends \Triggerfish\Social\Basic_Provider {
 		];
 	}
 
-	protected function format_item_to_post_array( $item ) {
+	protected function format_item_to_post_array( $item, $account_id ) {
 		$share = $item['updateContent']['companyStatusUpdate']['share'];
 
 		$post_array = [
@@ -55,6 +55,8 @@ class LinkedIn extends \Triggerfish\Social\Basic_Provider {
 				'id' => sanitize_text_field( $item['updateContent']['company']['id'] ),
 				'name' => sanitize_text_field( $item['updateContent']['company']['name'] ),
 			];
+
+			$post_array['meta_input']['account_name'] = sanitize_text_field( $item['updateContent']['company']['name'] );
 		}
 
 		return $post_array;

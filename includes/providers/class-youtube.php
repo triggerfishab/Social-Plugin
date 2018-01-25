@@ -27,15 +27,15 @@ class YouTube extends \Triggerfish\Social\Basic_Provider {
 		];
 	}
 
-	protected function format_item_to_post_array( $item ) {
+	protected function format_item_to_post_array( $item, $account_id ) {
 		$post_array = [
 			'post_title' => sanitize_text_field( $item['snippet']['title'] ),
 			'post_content' => $this->create_links( $item['snippet']['description'] ),
 			'post_status' => 'publish',
 			'post_date' => $this->format_date( $item['snippet']['publishedAt'] ),
 			'meta_input' => [
-				'url' => add_query_arg( 'v', $item['id']['videoId'], 'https://www.youtube.com/watch?v=' ),
 				'account_name' => sanitize_text_field( $item['snippet']['channelTitle'] ),
+				'url' => add_query_arg( 'v', $item['id']['videoId'], 'https://www.youtube.com/watch?v=' ),
 			],
 		];
 

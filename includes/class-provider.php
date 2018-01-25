@@ -61,7 +61,7 @@ abstract class Provider {
 				continue;
 			}
 
-			$post_array = $this->format_item_to_post_array( $item );
+			$post_array = $this->format_item_to_post_array( $item, $account_id );
 
 			$post_array = apply_filters( 'tf/social/provider/post_array', $post_array, $item );
 			$post_array = apply_filters( sprintf( 'tf/social/provider/%s/post_array', $this->get_name() ), $post_array, $item );
