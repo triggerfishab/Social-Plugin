@@ -63,11 +63,11 @@ class LinkedIn extends \Triggerfish\Social\Basic_Provider {
 	}
 
 	protected function validate_body( $body ) {
-		if ( ! parent::validate_body( $body ) ) {
+		if ( is_array( $body ) && empty( $body['values'] ) ) {
 			return false;
 		}
 
-		return ( ! empty( $body['values'] ) );
+		return parent::validate_body( $body );
 	}
 
 	protected function validate_item( $item ) {

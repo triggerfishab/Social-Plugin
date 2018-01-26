@@ -13,7 +13,7 @@ abstract class Provider {
 	const DATE_FORMAT = 'Y-m-d H:i:s';
 
 	abstract public function get_name();
-	abstract protected function format_item_to_post_array( $item );
+	abstract protected function format_item_to_post_array( $item, $account_id );
 	abstract protected function get_items_from_response_body( $body );
 	abstract protected function get_decoded_response_body( $account_id );
 
