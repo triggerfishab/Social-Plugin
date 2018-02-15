@@ -3,6 +3,7 @@
 namespace Triggerfish\Social;
 
 use WP_Error;
+use ReflectionClass;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
@@ -310,6 +311,8 @@ abstract class Provider {
 	public static function instance() {
 		$class_name = get_called_class();
 
-		return new $class_name( ...func_get_args() );
+		$reflection_class = new ReflectionClass( $class_name );
+
+		return $reflection_class->newInstanceArgs( func_get_args() );
 	}
 }
