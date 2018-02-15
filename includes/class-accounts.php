@@ -32,7 +32,9 @@ class Accounts {
 
 		$screen = get_current_screen();
 
-		if ( false === mb_strpos( $screen->id, self::SLUG ) ) {
+		$strpos_function  = ( function_exists( 'mb_strpos' ) ? 'mb_strpos' : 'strpos' );
+
+		if ( false === call_user_func( $strpos_function, $screen->id, self::SLUG ) ) {
 			return;
 		}
 
@@ -62,7 +64,9 @@ class Accounts {
 
 		$screen = get_current_screen();
 
-		if ( false === mb_strpos( $screen->id, self::SLUG ) ) {
+		$strpos_function  = ( function_exists( 'mb_strpos' ) ? 'mb_strpos' : 'strpos' );
+
+		if ( false === call_user_func( $strpos_function, $screen->id, self::SLUG ) ) {
 			return;
 		}
 

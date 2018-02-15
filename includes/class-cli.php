@@ -24,7 +24,9 @@ class CLI {
 			WP_CLI::error( 'Argument <provider_name> missing' );
 		}
 
-		$provider_name = mb_strtolower( $args[0] );
+		$strtolower_function  = ( function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower' );
+
+		$provider_name = call_user_func( $strtolower_function, $args[0] );
 
 		$status = Providers::sync_provider( $provider_name );
 
@@ -60,7 +62,9 @@ class CLI {
 			WP_CLI::error( 'Argument <provider_name> missing' );
 		}
 
-		$provider_name = mb_strtolower( $args[0] );
+		$strtolower_function  = ( function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower' );
+
+		$provider_name = call_user_func( $strtolower_function, $args[0] );
 
 		$accounts = Accounts::get_provider_accounts( $provider_name );
 
