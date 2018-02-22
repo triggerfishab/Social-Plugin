@@ -67,7 +67,8 @@ class Twitter extends \Triggerfish\Social\Provider {
 			$connection->setDecodeJsonAsArray( true );
 
 			$parameters = [
-				'include_rts' => false,
+				'include_rts' => apply_filters( sprintf( 'tf/social/provider/%s/include_rts', $this->get_name() ), false ),
+				'exclude_replies' => apply_filters( sprintf( 'tf/social/provider/%s/exclude_replies', $this->get_name() ), true ),
 			];
 
 			$parameters['screen_name'] = $account_id;
