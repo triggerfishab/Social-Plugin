@@ -89,7 +89,7 @@ class Instagram extends \Triggerfish\Social\Provider {
 	}
 
 	protected function get_user_id( $username ) {
-		$url = $this->get_api_url( 'users/search' );
+		$url = $this->get_api_url( 'users/self/media/recent' );
 		$url = add_query_arg( 'q', $username, $url );
 		$url = add_query_arg( 'count', 20, $url );
 
@@ -113,8 +113,8 @@ class Instagram extends \Triggerfish\Social\Provider {
 		$users = $this->get_items_from_response_body( $body );
 
 		foreach ( $users as $user ) {
-			if ( $user['username'] === $username ) {
-				return $user['id'];
+			if ( $user['user']['username'] === $username ) {
+				return $user['user']['id'];
 			}
 		}
 
