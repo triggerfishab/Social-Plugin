@@ -2,7 +2,7 @@
 
 /**
  * Plugin name: Triggerfish Social
- * Version: 1.6.0
+ * Version: 1.6.1
  * Text Domain: triggerfish-social
  * Author: Triggefish
  * Author URI: https://www.triggerfish.se/
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-define( 'PLUGIN_VERSION', '1.6.0' );
+define( 'PLUGIN_VERSION', '1.6.1' );
 
 define( 'PLUGIN_DIR', __DIR__ );
 define( 'PLUGIN_FILE', __FILE__ );
