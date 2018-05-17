@@ -247,7 +247,7 @@ class Accounts {
 				'key' => 'field_tf_social_accounts_tf_social_instagram_accounts',
 				'name' => 'tf_social_instagram_accounts',
 				'label' => __( 'Accounts', 'triggerfish-social' ),
-				'max' => 5,
+				'max' => 1,
 				'button_label' => __( 'Add account', 'triggerfish-social' ),
 				'type' => 'repeater',
 				'sub_fields' => [
@@ -257,7 +257,7 @@ class Accounts {
 						'label' => __( 'Username', 'triggerfish-social' ),
 						'type' => 'text',
 						'required' => true,
-						'instructions' => '<br>Lägg till användarnamn för kontot vars inlägg du vill inkludera.',
+						'instructions' => '<br>För tillfället är det endast möjligt att ha ett konto.',
 						'prepend' => '@',
 					],
 				],

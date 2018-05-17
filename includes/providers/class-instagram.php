@@ -60,17 +60,7 @@ class Instagram extends \Triggerfish\Social\Provider {
 			return new WP_Error( 'social-plugin', 'No Access Token found.', $access_token );
 		}
 
-		$user_id = $this->get_user_id( $account_id );
-
-		if ( empty( $user_id ) ) {
-			$user_id = new WP_Error( 'social-plugin', 'No User ID found.' );
-		}
-
-		if ( is_wp_error( $user_id ) ) {
-			return $user_id;
-		}
-
-		$url = $this->get_api_url( sprintf( 'users/%s/media/recent/', $user_id ) );
+		$url = $this->get_api_url( 'users/self/media/recent/' );
 		$url = add_query_arg( 'count', $this->get_limit(), $url );
 
 		$response = wp_remote_get( $url );
@@ -86,39 +76,6 @@ class Instagram extends \Triggerfish\Social\Provider {
 		$body = wp_remote_retrieve_body( $response );
 
 		return $this->decode_body( $body );
-	}
-
-	protected function get_user_id( $username ) {
-		$url = $this->get_api_url( 'users/self/media/recent' );
-		$url = add_query_arg( 'q', $username, $url );
-		$url = add_query_arg( 'count', 20, $url );
-
-		$response = wp_remote_get( $url );
-
-		if ( is_wp_error( $response ) ) {
-			return $response;
-		}
-
-		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
-			return new WP_Error( 'social-plugin', 'Incorrect response code', $response );
-		}
-
-		$body = wp_remote_retrieve_body( $response );
-		$body = $this->decode_body( $body );
-
-		if ( empty( $body ) ) {
-			return new WP_Error( 'social-plugin', 'Invalid response body', $valid );
-		}
-
-		$users = $this->get_items_from_response_body( $body );
-
-		foreach ( $users as $user ) {
-			if ( $user['user']['username'] === $username ) {
-				return $user['user']['id'];
-			}
-		}
-
-		return new WP_Error( 'social-plugin', 'User not found.', $username );
 	}
 
 	protected function get_api_url( $endpoint ) {

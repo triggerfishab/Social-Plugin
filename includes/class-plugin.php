@@ -59,13 +59,23 @@ class Plugin {
 		$plugin_version = $this->get_plugin_version();
 
 		if ( $current_version !== $plugin_version ) {
-			$this->upgrade( $current_version );
+			if ( false !== $this->upgrade( $current_version, $plugin_version ) ) {
+				update_option( 'triggerfish_social_installed_version', $plugin_version );
+			}
 		}
-
-		return update_option( 'triggerfish_social_installed_version', $plugin_version );
 	}
 
-	private function upgrade( $current_version ) {}
+	private function upgrade( $from_version, $to_version ) {
+		if ( version_compare( $from_version, '1.7.0', '<' ) ) {
+			$instagram_accounts = get_field( 'field_tf_social_accounts_tf_social_instagram_accounts', 'option' );
+
+			if ( count( $instagram_accounts ) > 1 ) {
+				update_field( 'field_tf_social_accounts_tf_social_instagram_accounts', array_slice( $instagram_accounts, 0, 1 ), 'option' );
+			}
+
+			$result = Providers::sync_provider( 'instagram' );
+		}
+	}
 
 	function get_db_version() {
 		return get_option( 'triggerfish_social_installed_version', false );
