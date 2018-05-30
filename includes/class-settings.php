@@ -15,23 +15,27 @@ class Settings {
 	private function __construct() {
 		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
 		add_action( 'acf/init', [ $this, 'register_acf_fields' ] );
-		add_filter( 'acf/load_field/key=field_tf_social_settings_tf_social_instagram_authorize', function( $field ) {
-			$accounts = get_field( 'tf_social_instagram_repeater', 'options' );
+		add_filter( 'acf/load_field/key=field_tf_social_settings_tf_social_instagram_authorize', [ $this, 'list_authorization_buttons' ] );
+	}
 
-			$field['message'] = '
-					Redirect URI:
-					<pre><code>' . esc_url( self::get_admin_page_url() ) . '</code></pre>';
+	public function list_authorization_buttons( $field ) {
+		$accounts = get_field( 'tf_social_instagram_repeater', 'options' );
 
+		$field['message'] = '
+				Redirect URI:
+				<pre><code>' . esc_url( self::get_admin_page_url() ) . '</code></pre>';
+
+		if ( ! empty( $accounts ) ) {
 			foreach ( $accounts as $index => $account ) {
 				$field['message'] .= sprintf(
-					'<p style="margin-bottom: 20px;"><a class="button" href="%s">%s</a></p>',
-					OAuth::get_oauth_pre_url( 'instagram' ) . '&row_index=' . $index,
+					'<a class="acf-button button button-primary" style="margin-right: 20px;" href="%s">%s</a>',
+					OAuth::get_oauth_pre_url( 'instagram' ) . '&row_index=' . esc_url( $index ),
 					sprintf( esc_html__( 'Authorize %s', 'triggerfish-social' ), $account['tf_social_instagram_username'] )
 				);
 			}
+		}
 
-			return $field;
-		});
+		return $field;
 	}
 
 	public function admin_menu() {
@@ -204,7 +208,7 @@ class Settings {
 					'
 					Redirect URI:
 					<pre><code>%s</code></pre>
-					<a class="button" href="%s">%s</a>
+					<a class="acf-button button button-primary" href="%s">%s</a>
 					',
 					self::get_admin_page_url(),
 					OAuth::get_oauth_pre_url( 'linkedin' ),
