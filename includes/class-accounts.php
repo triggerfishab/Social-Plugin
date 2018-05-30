@@ -247,7 +247,6 @@ class Accounts {
 				'key' => 'field_tf_social_accounts_tf_social_instagram_accounts',
 				'name' => 'tf_social_instagram_accounts',
 				'label' => __( 'Accounts', 'triggerfish-social' ),
-				'max' => 1,
 				'button_label' => __( 'Add account', 'triggerfish-social' ),
 				'type' => 'repeater',
 				'sub_fields' => [

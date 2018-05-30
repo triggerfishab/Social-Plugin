@@ -53,8 +53,26 @@ class Instagram extends \Triggerfish\Social\Provider {
 		return $items['data'];
 	}
 
+	protected function get_account_row_index( $account_id ) {
+		$settings = \Triggerfish\Social\Settings::get_field( 'tf_social_instagram_repeater', 'options' );
+
+		if ( empty( $settings ) ) {
+			return false;
+		}
+
+		foreach ( $settings as $index => $setting ) {
+			if ( strtolower( $account_id ) === $setting['tf_social_instagram_username'] ) {
+				return $index;
+			}
+		}
+
+		return false;
+	}
+
 	protected function get_decoded_response_body( $account_id ) {
-		$access_token = \Triggerfish\Social\OAuth::get_access_token( $this->get_name() );
+		$index = $this->get_account_row_index( $account_id );
+
+		$access_token = \Triggerfish\Social\OAuth::get_access_token( $this->get_name(), $index );
 
 		if ( empty( $access_token ) ) {
 			return new WP_Error( 'social-plugin', 'No Access Token found.', $access_token );
