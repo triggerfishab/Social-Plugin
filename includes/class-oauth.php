@@ -14,7 +14,7 @@ class OAuth {
 
 	private static $instance;
 
-	private static $current_row_index = '';
+	private static $current_uid = '';
 
 	public function __construct() {
 		add_action( 'current_screen', [ $this, 'handle' ] );
@@ -35,8 +35,8 @@ class OAuth {
 		$action = sanitize_text_field( $_GET['_tf_oauth_action'] );
 
 		if ( 'redirect' === $action ) {
-			if ( ( isset( $_GET['row_index'] ) && '' !== $_GET['row_index'] ) && 'instagram' == $provider_name ) {
-				$_SESSION[ $provider_name ]['row_index'] = sanitize_text_field( $_GET['row_index'] );
+			if ( ( isset( $_GET['uid'] ) && '' !== $_GET['uid'] ) && 'instagram' === $provider_name ) {
+				$_SESSION[ $provider_name ]['uid'] = sanitize_text_field( $_GET['uid'] );
 			}
 
 			$oauth_provider = $this->get_oauth_provider( $provider_name );
@@ -80,6 +80,9 @@ class OAuth {
 						$this->oauth_result = 'Användaren ni har godkänt LinkedIn med har inget företag kopplat till sig.';
 					}
 				}
+
+				wp_redirect( admin_url( '?page=triggerfish-social-settings' ) );
+				exit;
 			} catch ( \Exception $e ) {
 				$this->oauth_result = new WP_Error( 'social-plugin', $e->getMessage(), '', $e->getCode() );
 			}
@@ -194,17 +197,19 @@ class OAuth {
 		}
 	}
 
-	private static function get_current_account_row_index( $provider_name ) {
-		return $_SESSION[ $provider_name ]['row_index'];
+	private static function get_current_account_uid( $provider_name ) {
+		return $_SESSION[ $provider_name ]['uid'];
 	}
 
 	public static function get_client_id( $provider_name ) {
-		if ( '' !== self::get_current_account_row_index( $provider_name ) ) {
+		if ( '' !== self::get_current_account_uid( $provider_name ) ) {
 			$fields = get_field( 'tf_social_' . $provider_name . '_repeater', 'options' );
-			$row_index = self::get_current_account_row_index( $provider_name );
+			$uid = self::get_current_account_uid( $provider_name );
 
-			if ( isset( $fields[ $row_index ] ) ) {
-				return $fields[ $row_index ][ 'tf_social_' . $provider_name . '_client_id' ];
+			foreach ( $fields as $field ) {
+				if ( $field[ 'tf_social_' . $provider_name . '_username' ] === $uid ) {
+					return $field[ 'tf_social_' . $provider_name . '_client_id' ];
+				}
 			}
 		}
 
@@ -212,12 +217,14 @@ class OAuth {
 	}
 
 	public static function get_client_secret( $provider_name ) {
-		if ( '' !== self::get_current_account_row_index( $provider_name ) ) {
+		if ( '' !== self::get_current_account_uid( $provider_name ) ) {
 			$fields = get_field( 'tf_social_' . $provider_name . '_repeater', 'options' );
-			$row_index = self::get_current_account_row_index( $provider_name );
+			$uid = self::get_current_account_uid( $provider_name );
 
-			if ( isset( $fields[ $row_index ] ) ) {
-				return $fields[ $row_index ][ 'tf_social_' . $provider_name . '_client_secret' ];
+			foreach ( $fields as $field ) {
+				if ( $field[ 'tf_social_' . $provider_name . '_username' ] === $uid ) {
+					return $field[ 'tf_social_' . $provider_name . '_client_secret' ];
+				}
 			}
 		}
 
@@ -226,17 +233,17 @@ class OAuth {
 
 	public static function set_access_token( $provider_name, $access_token ) {
 		if ( 'instagram' === $provider_name ) {
-			return update_option( sprintf( '_tf_social_%s_%d_access_token', $provider_name, self::get_current_account_row_index( $provider_name ) ), $access_token, false );
+			return update_option( sprintf( '_tf_social_%s_%s_access_token', $provider_name, self::get_current_account_uid( $provider_name ) ), $access_token, false );
 		}
 
 		return update_option( sprintf( '_tf_social_%s_access_token', $provider_name ), $access_token, false );
 	}
 
-	public static function get_access_token( $provider_name, $index = '' ) {
+	public static function get_access_token( $provider_name, $uid = '' ) {
 		if ( 'instagram' === $provider_name ) {
-			$index = ! empty( $index ) ? $index : self::get_current_account_row_index( $provider_name );
+			$uid = ! empty( $uid ) ? $uid : self::get_current_account_uid( $provider_name );
 
-			return get_option( sprintf( '_tf_social_%s_%d_access_token', $provider_name, $index ), '' );
+			return get_option( sprintf( '_tf_social_%s_%s_access_token', $provider_name, $uid ), '' );
 		}
 
 		return get_option( sprintf( '_tf_social_%s_access_token', $provider_name ), '' );

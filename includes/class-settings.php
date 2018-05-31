@@ -10,15 +10,53 @@ class Settings {
 
 	static private $instance;
 
+	private $old_data;
+
 	const SLUG = 'triggerfish-social-settings';
 
 	private function __construct() {
 		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
 		add_action( 'acf/init', [ $this, 'register_acf_fields' ] );
-		add_filter( 'acf/load_field/key=field_tf_social_settings_tf_social_instagram_authorize', [ $this, 'list_authorization_buttons' ] );
+		add_filter( 'acf/load_field/key=field_tf_social_settings_tf_social_instagram_authorize', [ $this, 'add_instagram_uid_to_authorization_button_url' ] );
+		add_action( 'acf/save_post', [ $this, 'delete_account_access_token' ], 1 );
 	}
 
-	public function list_authorization_buttons( $field ) {
+	public function delete_account_access_token( $post_id ) {
+		$old_values = get_field( 'tf_social_instagram_repeater', 'options' );
+		$token_key = '_tf_social_instagram_%s_access_token';
+
+		if ( empty( $old_values ) ) {
+			return;
+		}
+
+		if ( ! $_POST['_acfchanged'] ) {
+			return;
+		}
+
+		if ( ! isset( $_POST['acf']['field_tf_social_settings_tf_social_instagram_repeater'] ) ) {
+			return;
+		}
+
+		$old_values = wp_list_pluck( $old_values, 'tf_social_instagram_username' );
+		$new_values = ! empty( $_POST['acf']['field_tf_social_settings_tf_social_instagram_repeater'] ) ? $_POST['acf']['field_tf_social_settings_tf_social_instagram_repeater'] : [];
+
+		if ( ! empty( $new_values ) ) {
+			$new_values = wp_list_pluck( $new_values, 'field_tf_social_settings_tf_social_instagram_repeater_username' );
+		}
+
+		if ( count( $old_values ) > count( $new_values ) ) {
+
+			$diff = array_diff( $old_values, $new_values );
+
+			if ( ! empty( $diff ) ) {
+				foreach ( $diff as $username ) {
+					delete_option( sprintf( $token_key, $username ) );
+				}
+			}
+		}
+	}
+
+	public function add_instagram_uid_to_authorization_button_url( $field ) {
 		$accounts = get_field( 'tf_social_instagram_repeater', 'options' );
 
 		$field['message'] = '
@@ -26,10 +64,10 @@ class Settings {
 				<pre><code>' . esc_url( self::get_admin_page_url() ) . '</code></pre>';
 
 		if ( ! empty( $accounts ) ) {
-			foreach ( $accounts as $index => $account ) {
+			foreach ( $accounts as $account ) {
 				$field['message'] .= sprintf(
 					'<a class="acf-button button button-primary" style="margin-right: 20px;" href="%s">%s</a>',
-					OAuth::get_oauth_pre_url( 'instagram' ) . '&row_index=' . esc_url( $index ),
+					OAuth::get_oauth_pre_url( 'instagram' ) . '&uid=' . $account['tf_social_instagram_username'],
 					sprintf( esc_html__( 'Authorize %s', 'triggerfish-social' ), $account['tf_social_instagram_username'] )
 				);
 			}
@@ -154,22 +192,6 @@ class Settings {
 						'label' => 'Client Secret',
 						'wrapper' => [ 'width' => 40 ],
 					],
-					// [
-					// 	'key' => 'field_tf_social_settings_tf_social_instagram_repeater_authorize_button',
-					// 	'name' => 'tf_social_instagram_authorize_button',
-					// 	'type' => 'message',
-					// 	'label' => __( 'Authorize', 'triggerfish-social' ),
-					// 	'message' => sprintf(
-					// 		'
-					// 		Redirect URI:
-					// 		<pre><code>%s</code></pre>
-					// 		<a class="button" href="%s">%s</a>
-					// 		',
-					// 		self::get_admin_page_url(),
-					// 		OAuth::get_oauth_pre_url( 'instagram' ),
-					// 		esc_html__( 'Authorize', 'triggerfish-social' )
-					// 	),
-					// ],
 				],
 			],
 			[
