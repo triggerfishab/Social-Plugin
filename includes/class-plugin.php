@@ -16,7 +16,13 @@ class Plugin {
 	static private $instance;
 
 	private function __construct() {
-		include_once ABSPATH . '/vendor/autoload.php';
+
+		// Load from abspath first and wp content second
+		if ( file_exists( ABSPATH . '/vendor/autoload.php' ) ) {
+			include_once ABSPATH . '/vendor/autoload.php';
+		} else {
+			include_once WP_CONTENT_DIR . '/vendor/autoload.php';
+		}
 
 		include_once PLUGIN_DIR . '/includes/class-settings.php';
 		include_once PLUGIN_DIR . '/includes/class-providers.php';
