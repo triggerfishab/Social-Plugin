@@ -240,7 +240,7 @@ class Plugin {
 register_activation_hook( PLUGIN_FILE, [ __NAMESPACE__ . '\Plugin', 'on_activation' ] );
 register_deactivation_hook( PLUGIN_FILE, [ __NAMESPACE__ . '\Plugin', 'on_deactivation' ] );
 
-add_action( 'plugins_loaded', function() {
+add_action( 'after_setup_theme', function() {
 	if ( ! class_exists( 'acf' ) ) {
 		return;
 	}
