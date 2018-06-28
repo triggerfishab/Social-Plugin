@@ -21,7 +21,7 @@ class Plugin {
 		if ( file_exists( ABSPATH . '/vendor/autoload.php' ) ) {
 			include_once ABSPATH . '/vendor/autoload.php';
 		} else {
-			include_once WP_CONTENT_DIR . '/vendor/autoload.php';
+			include_once PLUGIN_DIR . '/vendor/autoload.php';
 		}
 
 		include_once PLUGIN_DIR . '/includes/class-settings.php';
