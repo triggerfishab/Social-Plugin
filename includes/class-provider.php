@@ -106,6 +106,7 @@ abstract class Provider {
 			'update_post_term_cache' => false,
 			'update_post_meta_cache' => false,
 			'no_found_rows' => true,
+			'no_paging' => true,
 			'meta_query' => [
 				[
 					'key' => '_external_id',
