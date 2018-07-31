@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Providers {
 
 	public static function sync_provider( $provider_name ) {
+
 		$providers = Plugin::get_provider_class_map( $provider_name );
 
 		if ( ! isset( $providers[ $provider_name ] ) ) {

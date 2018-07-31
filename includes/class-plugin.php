@@ -222,8 +222,6 @@ class Plugin {
 	public static function debug( $debug_message ) {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			\WP_CLI::debug( $debug_message );
-		} elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			error_log( $debug_message );
 		}
 	}
 

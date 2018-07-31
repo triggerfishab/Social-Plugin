@@ -22,6 +22,7 @@ class Accounts {
 	}
 
 	public function before_accounts_saved( $post_id ) {
+
 		if ( 'options' !== $post_id ) {
 			return;
 		}
@@ -39,7 +40,6 @@ class Accounts {
 		}
 
 		$accounts = self::get_all_accounts();
-
 		if ( empty( $accounts ) ) {
 			$this->accounts_before_save = [];
 
@@ -54,6 +54,7 @@ class Accounts {
 	}
 
 	public function after_accounts_saved( $post_id ) {
+
 		if ( 'options' !== $post_id ) {
 			return;
 		}
@@ -109,6 +110,7 @@ class Accounts {
 	}
 
 	public static function sync_all_accounts() {
+
 		$accounts = self::get_all_accounts();
 
 		$result = [];

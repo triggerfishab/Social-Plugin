@@ -24,6 +24,7 @@ abstract class Account {
 	}
 
 	public function sync() {
+
 		$provider = $this->get_provider();
 
 		if ( empty( $provider ) ) {

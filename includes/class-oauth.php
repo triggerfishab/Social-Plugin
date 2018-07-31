@@ -2,8 +2,6 @@
 
 namespace Triggerfish\Social;
 
-session_start();
-
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,45 +20,58 @@ class OAuth {
 	}
 
 	public function handle() {
-		if ( 'GET' !== $_SERVER['REQUEST_METHOD'] || empty( $_GET['_tf_provider_name'] ) || ! is_user_logged_in() ) {
+		if ( ( isset( $_SERVER['REQUEST_METHOD'] ) && 'GET' !== $_SERVER['REQUEST_METHOD'] ) || empty( $_GET['_tf_provider_name'] ) || ! is_user_logged_in() ) {
 			return;
 		}
 
-		$provider_name = sanitize_text_field( $_GET['_tf_provider_name'] );
+		if ( isset( $_GET['_tf_provider_name'] ) ) {
+			$provider_name = sanitize_text_field( $_GET['_tf_provider_name'] );
 
-		if ( ! self::is_valid_provider_name( $provider_name ) ) {
+			if ( ! self::is_valid_provider_name( $provider_name ) ) {
+				return;
+			}
+		} else {
 			return;
 		}
 
-		$action = sanitize_text_field( $_GET['_tf_oauth_action'] );
+		if ( isset( $_GET['_tf_oauth_action'] ) ) {
 
-		if ( 'redirect' === $action ) {
-			if ( ( isset( $_GET['uid'] ) && '' !== $_GET['uid'] ) && 'instagram' === $provider_name ) {
-				$_SESSION[ $provider_name ]['uid'] = sanitize_text_field( $_GET['uid'] );
+			$action = sanitize_text_field( $_GET['_tf_oauth_action'] );
+
+			if ( 'redirect' === $action ) {
+				if ( ( isset( $_GET['uid'] ) && '' !== $_GET['uid'] ) && 'instagram' === $provider_name ) {
+					update_option( 'temp_' . $provider_name . '_uid', sanitize_text_field( $_GET['uid'] ), false );
+				}
+
+				$oauth_provider = $this->get_oauth_provider( $provider_name );
+
+				$args = [ 'back_link' => true ];
+
+				if ( is_null( $oauth_provider ) ) {
+					wp_die(
+						esc_html__( 'You first need to supply a Client ID and Client Secret.', 'triggerfish-social' ),
+						esc_attr( 'Error' ),
+						$args
+					);
+				}
+
+				wp_redirect( $oauth_provider->getAuthorizationUrl(
+					[
+						'scope' => self::get_provider_scope( $provider_name ),
+						'state' => wp_create_nonce( $provider_name ),
+					]
+				) );
+				exit;
 			}
-
-			$oauth_provider = $this->get_oauth_provider( $provider_name );
-
-			if ( is_null( $oauth_provider ) ) {
-				wp_die(
-					esc_html__( 'You first need to supply a Client ID and Client Secret.', 'triggerfish-social' ),
-					'',
-					[ 'back_link' => true ]
-				);
-			}
-
-			wp_redirect( $oauth_provider->getAuthorizationUrl(
-				[
-					'scope' => self::get_provider_scope( $provider_name ),
-					'state' => wp_create_nonce( $provider_name ),
-				]
-			) );
-			exit;
 		}
 
-		if ( ! empty( $_GET['state'] ) && wp_verify_nonce( $_GET['state'], $provider_name ) ) {
+		if ( ! empty( $_GET['state'] ) && wp_verify_nonce( sanitize_key( $_GET['state'] ), $provider_name ) ) {
 			try {
 				$oauth_provider = $this->get_oauth_provider( $provider_name );
+
+				if ( ! isset( $_GET['code'] ) ) {
+					return;
+				}
 
 				$token = $oauth_provider->getAccessToken(
 					'authorization_code',
@@ -81,6 +92,11 @@ class OAuth {
 					}
 				}
 
+				// Deleting the temp option after use
+				if ( 'instagram' === $provider_name ) {
+					delete_option( 'temp_' . $provider_name . '_uid' );
+				}
+
 				wp_redirect( admin_url( '?page=triggerfish-social-settings' ) );
 				exit;
 			} catch ( \Exception $e ) {
@@ -89,7 +105,12 @@ class OAuth {
 		}
 
 		if ( ! empty( $_GET['error_reason'] ) ) {
-			$this->oauth_result = new WP_Error( 'social-plugin', $_GET['error_description'], $_GET['error_reason'], $_GET['error'] );
+
+			$error_description = ( ! isset( $_GET['error_description'] ) ? '' : sanitize_text_field( $_GET['error_description'] ) );
+
+			$error = ( ! isset( $_GET['error'] ) ? '' : sanitize_text_field( $_GET['error'] ) );
+
+			$this->oauth_result = new WP_Error( 'social-plugin', $error_description, sanitize_text_field( $_GET['error_reason'] ), $error );
 		}
 	}
 
@@ -101,19 +122,19 @@ class OAuth {
 		if ( is_wp_error( $this->oauth_result ) ) {
 			?>
 			<div class="notice notice-error">
-				<p><strong><?php _e( 'The authorization failed. Try again.', 'triggerfish-social' ); ?> <em>(<?php echo esc_html( $this->oauth_result->get_error_message() ); ?>)</em></strong></p>
+				<p><strong><?php esc_html_e( 'The authorization failed. Try again.', 'triggerfish-social' ); ?> <em>(<?php echo esc_html( $this->oauth_result->get_error_message() ); ?>)</em></strong></p>
 			</div>
 			<?php
 		} elseif ( true === $this->oauth_result ) {
 			?>
 			<div class="notice notice-success is-dismissible">
-				<p><strong><?php _e( 'You have successfully refreshed a token.', 'triggerfish-social' ); ?></strong></p>
+				<p><strong><?php esc_html_e( 'You have successfully refreshed a token.', 'triggerfish-social' ); ?></strong></p>
 			</div>
 			<?php
 		} elseif ( is_string( $this->oauth_result ) ) {
 			?>
 			<div class="notice notice-success is-dismissible">
-				<p><strong><?php _e( 'You have successfully refreshed a token.', 'triggerfish-social' ); ?></strong></p>
+				<p><strong><?php esc_html_e( 'You have successfully refreshed a token.', 'triggerfish-social' ); ?></strong></p>
 			</div>
 			<?php
 		}
@@ -198,7 +219,7 @@ class OAuth {
 	}
 
 	private static function get_current_account_uid( $provider_name ) {
-		return $_SESSION[ $provider_name ]['uid'];
+		return get_option( 'temp_' . $provider_name . '_uid', '' );
 	}
 
 	public static function get_client_id( $provider_name ) {
@@ -240,6 +261,7 @@ class OAuth {
 	}
 
 	public static function get_access_token( $provider_name, $uid = '' ) {
+
 		if ( 'instagram' === $provider_name ) {
 			$uid = ! empty( $uid ) ? $uid : self::get_current_account_uid( $provider_name );
 

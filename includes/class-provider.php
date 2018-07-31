@@ -19,10 +19,10 @@ abstract class Provider {
 	abstract protected function get_decoded_response_body( $account_id );
 
 	final public function sync_account( $account ) {
+
 		$account_id = $account->get_id();
 
 		$body = $this->get_decoded_response_body( $account_id );
-
 		$valid = $this->validate_body( $body );
 
 		if ( true !== $valid ) {
@@ -102,7 +102,6 @@ abstract class Provider {
 		$query = new \WP_Query([
 			'post_type' => Plugin::POST_TYPE,
 			'post_status' => 'any',
-			'nopaging' => true,
 			'ignore_sticky_posts' => true,
 			'update_post_term_cache' => false,
 			'update_post_meta_cache' => false,

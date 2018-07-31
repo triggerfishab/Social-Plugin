@@ -60,7 +60,7 @@ class Instagram extends \Triggerfish\Social\Provider {
 			return new WP_Error( 'social-plugin', 'No Access Token found.', $access_token );
 		}
 
-		$url = $this->get_api_url( 'users/self/media/recent/' );
+		$url = $this->get_api_url( 'users/self/media/recent/', $account_id );
 		$url = add_query_arg( 'count', $this->get_limit(), $url );
 
 		$response = wp_remote_get( $url );
@@ -78,12 +78,12 @@ class Instagram extends \Triggerfish\Social\Provider {
 		return $this->decode_body( $body );
 	}
 
-	protected function get_api_url( $endpoint ) {
+	protected function get_api_url( $endpoint, $account_id = '' ) {
 		$base = 'https://api.instagram.com/v1/';
 
 		$url = $base . trim( $endpoint, '/' );
 
-		return add_query_arg( 'access_token', \Triggerfish\Social\OAuth::get_access_token( $this->get_name() ), $url );
+		return add_query_arg( 'access_token', \Triggerfish\Social\OAuth::get_access_token( $this->get_name(), $account_id ), $url );
 	}
 
 }

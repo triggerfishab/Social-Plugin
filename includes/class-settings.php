@@ -18,10 +18,14 @@ class Settings {
 		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
 		add_action( 'acf/init', [ $this, 'register_acf_fields' ] );
 		add_filter( 'acf/load_field/key=field_tf_social_settings_tf_social_instagram_authorize', [ $this, 'add_instagram_uid_to_authorization_button_url' ] );
-		add_action( 'acf/save_post', [ $this, 'delete_account_access_token' ], 1 );
+
+		if ( isset( $_POST['_acf_nonce'] ) && wp_verify_nonce( $_POST['_acf_nonce'], 'options' ) ) {
+			add_action( 'acf/save_post', [ $this, 'delete_account_access_token' ], 1 );
+		}
 	}
 
 	public function delete_account_access_token( $post_id ) {
+
 		$old_values = get_field( 'tf_social_instagram_repeater', 'options' );
 		$token_key = '_tf_social_instagram_%s_access_token';
 
@@ -29,7 +33,7 @@ class Settings {
 			return;
 		}
 
-		if ( ! $_POST['_acfchanged'] ) {
+		if ( ! isset( $_POST['_acfchanged'] ) ) {
 			return;
 		}
 
@@ -38,7 +42,7 @@ class Settings {
 		}
 
 		$old_values = wp_list_pluck( $old_values, 'tf_social_instagram_username' );
-		$new_values = ! empty( $_POST['acf']['field_tf_social_settings_tf_social_instagram_repeater'] ) ? $_POST['acf']['field_tf_social_settings_tf_social_instagram_repeater'] : [];
+		$new_values = ! empty( $_POST['acf']['field_tf_social_settings_tf_social_instagram_repeater'] ) ? sanitize_text_field( $_POST['acf']['field_tf_social_settings_tf_social_instagram_repeater'] ) : [];
 
 		if ( ! empty( $new_values ) ) {
 			$new_values = wp_list_pluck( $new_values, 'field_tf_social_settings_tf_social_instagram_repeater_username' );
