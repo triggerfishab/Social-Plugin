@@ -16,7 +16,7 @@ class Settings {
 
 	private function __construct() {
 		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
-		add_action( 'acf/init', [ $this, 'register_acf_fields' ] );
+		add_action( 'init', [ $this, 'register_acf_fields' ], 6 );
 		add_filter( 'acf/load_field/key=field_tf_social_settings_tf_social_instagram_authorize', [ $this, 'add_instagram_uid_to_authorization_button_url' ] );
 		add_action( 'acf/save_post', [ $this, 'delete_account_access_token' ], 1 );
 	}

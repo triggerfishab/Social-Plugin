@@ -16,7 +16,7 @@ class Accounts {
 
 	private function __construct() {
 		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
-		add_action( 'acf/init', [ $this, 'register_acf_fields' ] );
+		add_action( 'init', [ $this, 'register_acf_fields' ], 6 );
 		add_action( 'acf/save_post', [ $this, 'before_accounts_saved' ], 9 );
 		add_action( 'acf/save_post', [ $this, 'after_accounts_saved' ], 11 );
 	}
