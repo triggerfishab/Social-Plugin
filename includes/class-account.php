@@ -88,6 +88,10 @@ abstract class Account {
 		return $query->posts;
 	}
 
+	public function __toString() {
+		return sprintf( '%s-%s', $this->get_id(), $this->get_provider_name() );
+	}
+
 	public static function instance() {
 		$class_name = get_called_class();
 

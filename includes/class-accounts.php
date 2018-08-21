@@ -46,9 +46,7 @@ class Accounts {
 			return;
 		}
 
-		$account_ids = array_map( function( $account ) {
-			return $account->get_id();
-		}, $accounts );
+		$account_ids = array_map( 'strval', $accounts );
 
 		$this->accounts_before_save = array_combine( $account_ids, $accounts );
 	}
@@ -72,9 +70,7 @@ class Accounts {
 
 		$accounts = self::get_all_accounts();
 
-		$account_ids = array_map( function( $account ) {
-			return $account->get_id();
-		}, $accounts );
+		$account_ids = array_map( 'strval', $accounts );
 
 		$current_accounts = array_combine( $account_ids, $accounts );
 
