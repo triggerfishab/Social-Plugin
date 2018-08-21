@@ -29,7 +29,11 @@ class Settings {
 			return;
 		}
 
-		if ( ! $_POST['_acfchanged'] ) {
+		if ( isset( $_POST['_acfchanged'] ) && ! $_POST['_acfchanged'] ) {
+			return;
+		}
+
+		if ( isset( $_POST['_acf_changed'] ) && ! $_POST['_acf_changed'] ) {
 			return;
 		}
 
