@@ -57,20 +57,26 @@ class Instagram extends \Triggerfish\Social\Provider {
 		$access_token = \Triggerfish\Social\OAuth::get_access_token( $this->get_name(), $account_id );
 
 		if ( empty( $access_token ) ) {
-			return new WP_Error( 'social-plugin', 'No Access Token found.', $access_token );
+			return new WP_Error( 'social-plugin', sprintf( 'No Access Token found for account (%s).', $account_id ), $access_token );
 		}
 
 		$url = $this->get_api_url( 'users/self/media/recent/', $account_id );
 		$url = add_query_arg( 'count', $this->get_limit(), $url );
 
-		$response = wp_remote_get( $url );
+		$response = $this->request( $url );
 
 		if ( is_wp_error( $response ) ) {
 			return $response;
 		}
 
-		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
-			return new WP_Error( 'social-plugin', 'Incorrect response code', $response );
+		$valid = $this->validate_response( $response );
+
+		if ( true !== $valid ) {
+			if ( ! is_wp_error( $valid ) ) {
+				$valid = new WP_Error( 'social-plugin', 'Invalid response', $response );
+			}
+
+			return $valid;
 		}
 
 		$body = wp_remote_retrieve_body( $response );

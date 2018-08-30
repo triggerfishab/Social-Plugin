@@ -243,6 +243,12 @@ abstract class Provider {
 
 	protected function validate_response( $response ) {
 		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			Plugin::debug( sprintf( 'Incorrect response code (%d)', wp_remote_retrieve_response_code( $response ) ) );
+
+			if ( ! empty( wp_remote_retrieve_body( $response ) ) ) {
+				Plugin::debug( 'Body: ' . wp_remote_retrieve_body( $response ) );
+			}
+
 			return new WP_Error( 'social-plugin', 'Incorrect response code', $response );
 		}
 
@@ -266,6 +272,9 @@ abstract class Provider {
 		$wp_remote_parameters = $this->get_wp_remote_parameters();
 		$wp_remote_parameters = apply_filters( 'tf/social/provider/wp_remote_parameters', $wp_remote_parameters );
 		$wp_remote_parameters = apply_filters( sprintf( 'tf/social/provider/%s/wp_remote_parameters', $this->get_name() ), $wp_remote_parameters );
+
+		Plugin::debug( sprintf( 'Requesting %s', $url ) );
+		$wp_remote_parameters && Plugin::debug( sprintf( 'with %s', wp_json_encode( $wp_remote_parameters ) ) );
 
 		return wp_remote_get(
 			$url,
