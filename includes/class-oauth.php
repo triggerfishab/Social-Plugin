@@ -2,8 +2,6 @@
 
 namespace Triggerfish\Social;
 
-session_start();
-
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -24,6 +22,10 @@ class OAuth {
 	public function handle() {
 		if ( 'GET' !== $_SERVER['REQUEST_METHOD'] || empty( $_GET['_tf_provider_name'] ) || ! is_user_logged_in() ) {
 			return;
+		}
+
+		if ( ! session_id() ) {
+			session_start();
 		}
 
 		$provider_name = sanitize_text_field( $_GET['_tf_provider_name'] );
@@ -198,6 +200,10 @@ class OAuth {
 	}
 
 	private static function get_current_account_uid( $provider_name ) {
+		if ( ! session_id() ) {
+			session_start();
+		}
+
 		return $_SESSION[ $provider_name ]['uid'];
 	}
 
