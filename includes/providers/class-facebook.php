@@ -18,7 +18,7 @@ class Facebook extends \Triggerfish\Social\Basic_Provider {
 
 	protected function get_remote_request_parameters( $account_id ) {
 		return [
-			'fields' => 'created_time,updated_time,link,message,attachments',
+			'fields' => 'created_time,updated_time,link,message,full_picture,permalink_url',
 			'access_token' => sprintf( '%s|%s', \Triggerfish\Social\Settings::get_field( 'facebook_app_id' ), \Triggerfish\Social\Settings::get_field( 'facebook_app_secret' ) ),
 			'limit' => $this->get_limit(),
 		];
@@ -38,12 +38,17 @@ class Facebook extends \Triggerfish\Social\Basic_Provider {
 			$post_array['post_content'] = $this->create_links( $item['message'] );
 		}
 
-		if ( ! empty( $item['link'] ) ) {
-			$post_array['meta_input']['url'] = esc_url_raw( $item['link'] );
+		if ( ! empty( $item['permalink_url'] ) ) {
+			$post_array['meta_input']['url'] = esc_url_raw( $item['permalink_url'] );
+			$post_array['meta_input']['facebook_post_url'] = esc_url_raw( $item['permalink_url'] );
 		}
 
-		if ( ! empty( $item['attachments']['data'][0]['media']['image'] ) ) {
-			$post_array['meta_input']['image'] = esc_url_raw( $item['attachments']['data'][0]['media']['image']['src'] );
+		if ( ! empty( $item['link'] ) ) {
+			$post_array['meta_input']['external_url'] = esc_url_raw( $item['link'] );
+		}
+
+		if ( ! empty( $item['full_picture'] ) ) {
+			$post_array['meta_input']['image'] = esc_url_raw( $item['full_picture'] );
 		}
 
 		return $post_array;
