@@ -20,7 +20,7 @@ class Plugin {
 		// Load from abspath first and wp content second
 		if ( file_exists( ABSPATH . '/vendor/autoload.php' ) ) {
 			include_once ABSPATH . '/vendor/autoload.php';
-		} else {
+		} elseif ( file_exists( PLUGIN_DIR . '/vendor/autoload.php' ) ) {
 			include_once PLUGIN_DIR . '/vendor/autoload.php';
 		}
 
