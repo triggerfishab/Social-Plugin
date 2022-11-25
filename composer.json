@@ -14,5 +14,10 @@
             "name": "Triggerfish",
             "email": "support@triggerfish.se"
         }
-    ]
+    ],
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
 }
