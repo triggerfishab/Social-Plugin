@@ -2,11 +2,11 @@
     "name": "triggerfish/social-plugin",
     "type": "wordpress-plugin",
     "require": {
-        "php": ">=5.6",
+        "php": ">=8.0",
         "composer/installers": "^1.4",
         "league/oauth2-instagram": "^2.0",
         "league/oauth2-linkedin": "^2.1",
-        "abraham/twitteroauth": "^0.7.4"
+        "abraham/twitteroauth": "^5.0.0"
     },
     "license": "GPL-2.0",
     "authors": [

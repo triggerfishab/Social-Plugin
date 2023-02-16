@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 ### Changed
+- Update `abraham/twitteroauth` dependency from 0.7.4 to 5.0.0 to ensure that plugin works in PHP 8.0+.
 
 ### Fixed
 
