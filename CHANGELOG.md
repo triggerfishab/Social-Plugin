@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 
+## [2.0.1] - 2023-02-16
+
+### Changed
+- Require php 8.0 or greater.
+
 ## [2.0.0] - 2023-02-16
 
 ### Changed
