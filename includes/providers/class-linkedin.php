@@ -117,7 +117,7 @@ class LinkedIn extends \Triggerfish\Social\Basic_Provider {
 	public function get_companies() {
 		$url = 'https://api.linkedin.com/v1/companies?is-company-admin=true';
 
-		$url = add_query_arg( $this->get_remote_request_parameters(), $url );
+		$url = add_query_arg( $this->get_remote_request_parameters( '' ), $url );
 
 		$response = $this->request( $url );
 

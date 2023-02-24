@@ -19,5 +19,9 @@
         "allow-plugins": {
             "composer/installers": true
         }
+    },
+    "require-dev": {
+        "phan/phan": "^5.4",
+        "php-stubs/wp-cli-stubs": "^2.7"
     }
 }
