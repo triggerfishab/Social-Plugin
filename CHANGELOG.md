@@ -8,14 +8,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Added
-- Added [phan](https://github.com/phan/phan) for static analysis in dev.
 
 ### Changed
 
 ### Fixed
-- Fixes som of the minor errors found when running phan analysis.
 
 ### Removed
+
+## [2.0.2] - 2023-02-24
+
+### Added
+- Added [phan](https://github.com/phan/phan) for static analysis in dev.
+
+### Fixed
+- Fixes som of the minor errors found when running phan analysis.
 
 ## [2.0.1] - 2023-02-16
 
