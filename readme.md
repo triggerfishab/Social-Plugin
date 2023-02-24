@@ -28,3 +28,9 @@
 
 - Om access token har gått ut vid synk, notifiera till angiven mail och i admin notice. Mailfält under inställningar.
 - Lägg till stöd för taggar på Instagram och Twitter.
+
+Följande packages bör uppdateras och säkerställas att allting fortfarande fungerar:
+
+- league/oauth2-instagram
+- league/oauth2-linkedin
+
