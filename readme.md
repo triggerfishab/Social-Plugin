@@ -34,3 +34,20 @@ Följande packages bör uppdateras och säkerställas att allting fortfarande fu
 - league/oauth2-instagram
 - league/oauth2-linkedin
 
+## Running PHAN
+
+The project has a PHAN config with a very low level. You may run it with the following command:
+
+```
+./vendor/bin/phan --progress-bar -o analysis.txt --allow-polyfill-parser
+```
+
+After running the above command you can run the following to get a summary of the types of errors and warnings found:
+
+```
+cat analysis.txt | cut -d ' ' -f2 | sort | uniq -c | sort -n -r
+```
+
+More info: https://github.com/phan/phan/wiki/Tutorial-for-Analyzing-a-Large-Sloppy-Code-Base
+
+TODO: Use a more strict config. Set `minimum_severity` to `SEVERITY_NORMAL` and do other adjustments as mentioned in ["Slowly Ramp-Up the Strength of the Analysis"](https://github.com/phan/phan/wiki/Tutorial-for-Analyzing-a-Large-Sloppy-Code-Base#slowly-ramp-up-the-strength-of-the-analysis).

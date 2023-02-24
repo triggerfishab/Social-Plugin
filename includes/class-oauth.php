@@ -194,7 +194,7 @@ class OAuth {
 				'clientSecret' => $client_secret,
 				'redirectUri' => self::get_redirect_uri( $provider_name ),
 			]);
-		} catch ( Exception $e ) {
+		} catch ( \Exception $e ) {
 			return null;
 		}
 	}
